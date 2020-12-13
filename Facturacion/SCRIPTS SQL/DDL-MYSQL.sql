@@ -1,0 +1,219 @@
+----------------------------
+-- DDL TABLA ETAPA
+----------------------------
+CREATE DATABASE UNIGRASAS;
+
+USE UNIGRASAS;
+
+SHOW TABLES;
+
+-- -----------------------------------------------------
+-- Table `unigrasas`.`tipo_persona`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `unigrasas`.`tipo_persona` (
+  `IDTIPO_PERSONA` INT NOT NULL AUTO_INCREMENT,
+  `NOMBRE` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`IDTIPO_PERSONA`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `unigrasas`.`cliente`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `unigrasas`.`cliente` (
+  `IDCLIENTE` INT NOT NULL AUTO_INCREMENT,
+  `TIPO_PERSONA_IDTIPO_PERSONA` INT NOT NULL,
+  `NIT` INT NULL DEFAULT NULL,
+  `NOMBRE` VARCHAR(45) NULL DEFAULT NULL,
+  `EMAIL` VARCHAR(45) NULL DEFAULT NULL,
+  `TELEFONO` INT NULL DEFAULT NULL,
+  `F_REGISTRO` DATE NULL DEFAULT NULL,
+  PRIMARY KEY (`IDCLIENTE`),
+  INDEX `FK_CLIENTE_TIPO_PERSONA1_IDX` (`TIPO_PERSONA_IDTIPO_PERSONA` ASC) VISIBLE,
+  CONSTRAINT `FK_CLIENTE_TIPO_PERSONA1`
+    FOREIGN KEY (`TIPO_PERSONA_IDTIPO_PERSONA`)
+    REFERENCES `unigrasas`.`tipo_persona` (`IDTIPO_PERSONA`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `unigrasas`.`responsable`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `unigrasas`.`responsable` (
+  `IDRESPONSABLE` INT NOT NULL AUTO_INCREMENT,
+  `IDENTIFICACION` INT NULL DEFAULT NULL,
+  `NOMBRE` VARCHAR(45) NULL DEFAULT NULL,
+  `CELULAR` INT NULL DEFAULT NULL,
+  `EMAIL` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`IDRESPONSABLE`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `unigrasas`.`empresa`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `unigrasas`.`empresa` (
+  `IDEMPRESA` INT NOT NULL AUTO_INCREMENT,
+  `RESPONSABLE_IDRESPONSABLE` INT NOT NULL,
+  `TIPO_PERSONA_IDTIPO_PERSONA` INT NOT NULL,
+  `NIT` INT NULL DEFAULT NULL,
+  `DIGITO_VERIFICACION` INT NULL DEFAULT NULL,
+  `RAZON_SOCIAL` VARCHAR(45) NULL DEFAULT NULL,
+  `DIRECCION` VARCHAR(45) NULL DEFAULT NULL,
+  `PAIS` VARCHAR(45) NULL DEFAULT NULL,
+  `CIUDAD` VARCHAR(45) NULL DEFAULT NULL,
+  `CIIU` VARCHAR(45) NULL DEFAULT NULL,
+  `MATRICULA` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`IDEMPRESA`),
+  INDEX `FK_EMPRESA_RESPONSABLE1_IDX` (`RESPONSABLE_IDRESPONSABLE` ASC) VISIBLE,
+  INDEX `FK_EMPRESA_TIPO_PERSONA1_IDX` (`TIPO_PERSONA_IDTIPO_PERSONA` ASC) VISIBLE,
+  CONSTRAINT `FK_EMPRESA_RESPONSABLE1`
+    FOREIGN KEY (`RESPONSABLE_IDRESPONSABLE`)
+    REFERENCES `unigrasas`.`responsable` (`IDRESPONSABLE`),
+  CONSTRAINT `FK_EMPRESA_TIPO_PERSONA1`
+    FOREIGN KEY (`TIPO_PERSONA_IDTIPO_PERSONA`)
+    REFERENCES `unigrasas`.`tipo_persona` (`IDTIPO_PERSONA`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `unigrasas`.`medio_pago`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `unigrasas`.`medio_pago` (
+  `IDMEDIO_PAGO` INT NOT NULL AUTO_INCREMENT,
+  `NOMBRE` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`IDMEDIO_PAGO`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `unigrasas`.`metodo_pago`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `unigrasas`.`metodo_pago` (
+  `IDMETODO_PAGO` INT NOT NULL AUTO_INCREMENT,
+  `NOMBRE` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`IDMETODO_PAGO`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `unigrasas`.`rol`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `unigrasas`.`rol` (
+  `IDROL` INT NOT NULL AUTO_INCREMENT,
+  `NOMBRE` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`IDROL`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `unigrasas`.`usuario`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `unigrasas`.`usuario` (
+  `IDUSUARIO` INT NOT NULL AUTO_INCREMENT,
+  `EMPRESA_IDEMPRESA` INT NOT NULL,
+  `ROL_IDROL` INT NOT NULL,
+  `NOMBRE` VARCHAR(45) NULL DEFAULT NULL,
+  `CONTRASENA` VARCHAR(45) NULL DEFAULT NULL,
+  `DESCRIPCION` VARCHAR(45) NULL DEFAULT NULL,
+  `AVATAR` VARCHAR(45) NULL DEFAULT NULL,
+  `TOKEN` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`IDUSUARIO`),
+  INDEX `FK_USUARIO_EMPRESA1_IDX` (`EMPRESA_IDEMPRESA` ASC) VISIBLE,
+  INDEX `FK_USUARIO_ROL1_IDX` (`ROL_IDROL` ASC) VISIBLE,
+  CONSTRAINT `FK_USUARIO_EMPRESA1`
+    FOREIGN KEY (`EMPRESA_IDEMPRESA`)
+    REFERENCES `unigrasas`.`empresa` (`IDEMPRESA`),
+  CONSTRAINT `FK_USUARIO_ROL1`
+    FOREIGN KEY (`ROL_IDROL`)
+    REFERENCES `unigrasas`.`rol` (`IDROL`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `unigrasas`.`factura`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `unigrasas`.`factura` (
+  `IDFACTURA` INT NOT NULL AUTO_INCREMENT,
+  `CLIENTE_IDCLIENTE` INT NOT NULL,
+  `METODO_PAGO_IDMETODO_PAGO` INT NOT NULL,
+  `MEDIO_PAGO_IDMEDIO_PAGO` INT NOT NULL,
+  `USUARIO_IDUSUARIO` INT NOT NULL,
+  `DIVISA` VARCHAR(45) NULL DEFAULT NULL,
+  `F_EMISION` DATE NULL DEFAULT NULL,
+  `F_VENCIMIENTO` DATE NULL DEFAULT NULL,
+  `F_PAGO` DATE NULL DEFAULT NULL,
+  `TOTAL` INT NULL DEFAULT NULL,
+  `DESCRIPCION` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`IDFACTURA`),
+  INDEX `FK_FACTURA_CLIENTE1_IDX` (`CLIENTE_IDCLIENTE` ASC) VISIBLE,
+  INDEX `FK_FACTURA_METODO_PAGO1_IDX` (`METODO_PAGO_IDMETODO_PAGO` ASC) VISIBLE,
+  INDEX `FK_FACTURA_MEDIO_PAGO1_IDX` (`MEDIO_PAGO_IDMEDIO_PAGO` ASC) VISIBLE,
+  INDEX `FK_FACTURA_USUARIO1_IDX` (`USUARIO_IDUSUARIO` ASC) VISIBLE,
+  CONSTRAINT `FK_FACTURA_CLIENTE1`
+    FOREIGN KEY (`CLIENTE_IDCLIENTE`)
+    REFERENCES `unigrasas`.`cliente` (`IDCLIENTE`),
+  CONSTRAINT `FK_FACTURA_MEDIO_PAGO1`
+    FOREIGN KEY (`MEDIO_PAGO_IDMEDIO_PAGO`)
+    REFERENCES `unigrasas`.`medio_pago` (`IDMEDIO_PAGO`),
+  CONSTRAINT `FK_FACTURA_METODO_PAGO1`
+    FOREIGN KEY (`METODO_PAGO_IDMETODO_PAGO`)
+    REFERENCES `unigrasas`.`metodo_pago` (`IDMETODO_PAGO`),
+  CONSTRAINT `FK_FACTURA_USUARIO1`
+    FOREIGN KEY (`USUARIO_IDUSUARIO`)
+    REFERENCES `unigrasas`.`usuario` (`IDUSUARIO`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `unigrasas`.`item`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `unigrasas`.`item` (
+  `IDITEM` INT NOT NULL AUTO_INCREMENT,
+  `COD_ITEM` VARCHAR(45) NULL DEFAULT NULL,
+  `NOMBRE` VARCHAR(45) NULL DEFAULT NULL,
+  `PRECIO` INT NULL DEFAULT NULL,
+  `DESCRIPCION` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`IDITEM`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `unigrasas`.`factura_has_item`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `unigrasas`.`factura_has_item` (
+  `FACTURA_IDFACTURA` INT NOT NULL,
+  `ITEM_IDITEM` INT NOT NULL,
+  `CANTIDAD` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`FACTURA_IDFACTURA`, `ITEM_IDITEM`),
+  INDEX `FK_FACTURA_HAS_ITEM_ITEM1_IDX` (`ITEM_IDITEM` ASC) VISIBLE,
+  INDEX `FK_FACTURA_HAS_ITEM_FACTURA1_IDX` (`FACTURA_IDFACTURA` ASC) VISIBLE,
+  CONSTRAINT `FK_FACTURA_HAS_ITEM_FACTURA1`
+    FOREIGN KEY (`FACTURA_IDFACTURA`)
+    REFERENCES `unigrasas`.`factura` (`IDFACTURA`),
+  CONSTRAINT `FK_FACTURA_HAS_ITEM_ITEM1`
+    FOREIGN KEY (`ITEM_IDITEM`)
+    REFERENCES `unigrasas`.`item` (`IDITEM`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
