@@ -1,1 +1,1 @@
-"# Software para el manejo de procesos de la DIEG"
+"# Software para el manejo de la facturación de UNIGRASAS"
