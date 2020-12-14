@@ -28,7 +28,7 @@
       </el-card>
     </div>
 
-    <!-- Dialogo que aparece cuando se va a eliminar una etapa -->
+    <!-- Dialogo que aparece cuando se va a eliminar un usuario -->
 
     <el-dialog
       title="Advertencia"

@@ -15,7 +15,7 @@
                   clickAgregar();
                   msgAgregarVisible = true;
                 "
-              >Agregar expediente</el-button>
+              >Agregar factura</el-button>
             </div>
           </transition>
         </div>
@@ -26,7 +26,7 @@
       </div>
     </sticky>
 
-    <!-- Cuadro de dialogo para agregar expediente -->
+    <!-- Cuadro de dialogo para agregar factura -->
 
     <el-dialog
       v-el-drag-dialog
@@ -38,7 +38,7 @@
     >
       <sticky class-name="sub-navbar">
         <div style="border: 0px solid red; color: white; text-align: center">
-          <h2>Agregar expediente</h2>
+          <h2>Agregar factura</h2>
         </div>
       </sticky>
       <div
@@ -52,53 +52,51 @@
           label-width="120px"
           class="demo-ruleForm"
         >
-          <el-form-item label="Expediente" prop="radicado">
+          <!-- <el-form-item label="Numeración" prop="idfactura">
             <el-input
-              v-model="formAgregar.radicado"
+              v-model="formAgregar.idfactura"
               autocomplete="off"
-              placeholder="Ingrese No. del expediente"
-              maxlength="17"
-              show-word-limit
+              placeholder="Ingrese No. factura"
               clearable
               class="control-modal"
             />
-          </el-form-item>
-          <el-form-item label="Servicio" prop="servicio">
+          </el-form-item> -->
+          <el-form-item label="Cliente" prop="cliente">
             <el-select
-              v-model="formAgregar.servicio"
+              v-model="formAgregar.cliente"
               filterable
-              placeholder="Seleccione el servicio"
-              class="control-modal"
-              clearable
-              @change="selectServicio($event)"
-              @clear="clearSelect()"
-            >
-              <el-option
-                v-for="item in datosServicios"
-                :key="item.idservicio"
-                :label="item.servicio"
-                :value="item.idservicio"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Empresa" prop="empresa">
-            <el-select
-              v-model="formAgregar.empresa"
-              filterable
-              :disabled="disableEmpresas"
-              placeholder="Seleccione un prestador"
+              placeholder="Seleccione un cliente"
               class="control-modal"
               clearable
             >
               <el-option
-                v-for="item in datosEmpresas"
-                :key="item.id_empresa"
+                v-for="item in datosClientes"
+                :key="item.idcliente"
                 :label="item.nombre"
-                :value="item.id_empresa"
+                :value="item.idcliente"
               />
             </el-select>
           </el-form-item>
-          <el-form-item label="Abogado" prop="usuario">
+          <el-form-item label="Divisa" prop="divisa">
+            <el-select
+              v-model="formAgregar.divisa"
+              filterable
+              placeholder="Seleccione divisa"
+              class="control-modal"
+              clearable
+            >
+              <el-option label="COP - Colombia, Pesos" value="COP - Colombia, Pesos"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="Fecha emisión" prop="f_emision">
+            <el-date-picker
+              v-model="formAgregar.f_emision"
+              type="date"
+              placeholder="Seleccione una fecha"
+              class="control-modal"
+            />
+          </el-form-item>
+          <el-form-item label="Vendedor" prop="usuario">
             <el-select
               v-model="formAgregar.usuario"
               filterable
@@ -114,14 +112,6 @@
               />
             </el-select>
           </el-form-item>
-          <!-- <el-form-item label="Caducidad" prop="fecha_caducidad" clearable>
-            <el-date-picker
-              v-model="formAgregar.fecha_caducidad"
-              type="date"
-              placeholder="Seleccione la fecha"
-              class="control-modal"
-            />
-          </el-form-item> -->
           <el-form-item>
             <el-button
               @click="
@@ -131,14 +121,14 @@
             >Cancelar</el-button>
             <el-button
               type="success"
-              @click="agregarExpediente('formAgregar')"
+              @click="agregarFactura('formAgregar')"
             >Agregar</el-button>
           </el-form-item>
         </el-form>
       </div>
     </el-dialog>
 
-    <!-- Cuadro de dialogo para asignar abogado -->
+    <!-- Cuadro de dialogo para asignar vendedor -->
 
     <el-dialog
       v-el-drag-dialog
@@ -150,7 +140,7 @@
     >
       <sticky class-name="sub-navbar">
         <div style="border: 0px solid red; color: white; text-align: center">
-          <h2>Asignar abogado</h2>
+          <h2>Asignar vendedor</h2>
         </div>
       </sticky>
       <div
@@ -158,12 +148,11 @@
         style="padding-top: 35px; padding-bottom: 5px; padding-left: 20px"
       >
         <el-form :model="formUsuario" label-width="120px" class="demo-ruleForm">
-          <el-form-item label="Expediente">
+          <el-form-item label="Factura">
             <el-input
-              v-model="formUsuario.expediente"
+              v-model="formUsuario.idfactura"
               autocomplete="off"
-              placeholder="Ingrese No. del expediente"
-              maxlength="14"
+              placeholder="Ingrese No. de factura"
               show-word-limit
               clearable
               class="control-modal"
@@ -229,7 +218,7 @@
       <el-card class="box-card">
         <!-- <el-input v-model="filename" placeholder="Nombre de archivo (defecto lista-excel)" size="mini" style="width:300px;" prefix-icon="el-icon-document" /> -->
         <el-button :loading="downloadLoading" style="margin-bottom:20px; border: 2px solid #67C23A;" size="mini" type="success" plain icon="el-icon-download" @click="handleDownload">
-          <span><b>Exportar a Excel los procesos seleccionados</b></span>
+          <span><b>Exportar a Excel las facturas seleccionadas</b></span>
         </el-button>
         <el-table
           ref="multipleTable"
@@ -257,7 +246,7 @@
           >
             <template slot-scope="scope">
               <div v-if="column.prop === 'usuario'"><el-tag type="primary">{{ scope.row[column.prop] }}</el-tag></div>
-              <div v-else-if="column.prop === 'caducidad'"><i class="el-icon-time" /> {{ convertDate(scope.row[column.prop]) }}</div>
+              <div v-else-if="column.prop === 'f_creacion'"><i class="el-icon-time" /> {{ convertDate(scope.row[column.prop]) }}</div>
               <div v-else>{{ scope.row[column.prop] }}</div>
             </template>
           </el-table-column>
@@ -265,10 +254,11 @@
             <!-- eslint-disable-next-line -->
             <template slot="header" slot-scope="scope">
               <el-input
-                v-model="busquedaExpediente"
+                v-model="busquedaCliente"
                 size="mini"
-                placeholder="No. Expediente"
-                @input="buscarProcesos"
+                placeholder="Nombre cliente"
+                clearable
+                @input="buscarCliente"
               />
             </template>
             <template slot-scope="scope">
@@ -288,7 +278,7 @@
                 v-show="showOnlyAdmin"
                 size="mini"
                 type="danger"
-                icon="el-icon-delete-solid"
+                icon="el-icon-document"
                 @click="handleDelete(scope.row)"
               />
             </template>
@@ -303,17 +293,15 @@
 import { mapGetters } from 'vuex'
 import { CONSTANTS } from '@/constants/constants'
 import {
-  getListProcesos,
-  createProceso,
-  updateProcesoUsuario,
-  deleteProceso
-} from '@/api/procesosDIEG/procesos'
-import { getListUsuarios } from '@/api/procesosDIEG/usuarios'
-import { getListServicios } from '@/api/procesosDIEG/servicios'
-import { getListEmpresas } from '@/api/procesosDIEG/empresas'
-import { getAllEmpresas } from '@/api/procesosDIEG/empresas'
-// import { getRoles } from '@/api/role'
-// import { addRole } from '@/api/role'
+  getListFacturas,
+  createFactura,
+  updateFacturaUsuario,
+  deleteFactura
+} from '@/api/unigrasas/facturas'
+import { getListUsuarios } from '@/api/unigrasas/usuarios'
+import { getListClientes } from '@/api/unigrasas/clientes'
+// import { getListEmpresas } from '@/api/procesosDIEG/empresas'
+// import { getAllEmpresas } from '@/api/procesosDIEG/empresas'
 import elDragDialog from '@/directive/el-drag-dialog' // base on element-ui
 import Sticky from '@/components/Sticky' // 粘性header组件
 import moment from 'moment'
@@ -328,23 +316,24 @@ export default {
       /* Datos para mostrar en la tabla */
       tableColumns: [],
       filters: {},
-      filterExpediente: [],
-      filterEmpresa: [],
+      filterFactura: [],
+      filterCliente: [],
       filterServicio: [],
-      filterEstado: [],
-      filterCaducidad: [],
-      filterAbogado: [],
+      filterTotal: [],
+      filterFcreacion: [],
+      filterVendedor: [],
       datosProcesos: [],
       datosUsuarios: [],
       datosServicios: [],
       datosEmpresas: [],
       allDataEmpresas: [],
+      datosClientes: [],
       /* Datos para captar la creación */
       formAgregar: CONSTANTS.formAgregar,
       rulesFormProceso: CONSTANTS.rulesFormProceso,
       formUsuario: CONSTANTS.formUsuario,
       /* Aqui se guarda el valor escrito en el cuadro de texto para la busqueda */
-      busquedaExpediente: '',
+      busquedaCliente: '',
       /* Si es o no visible el fomulario de agregar */
       msgAgregarVisible: false,
       /* Si es o no visible el formulario de asginación de usuario */
@@ -376,9 +365,9 @@ export default {
         return 'No registra'
       }
     },
-    buscarProcesos() {
+    buscarCliente() {
       const procesos = JSON.parse(window.localStorage.getItem('procesos'))
-      this.datosProcesos = procesos.filter((data) => !this.busquedaExpediente || data.expediente.toLowerCase().includes(this.busquedaExpediente.toLowerCase()))
+      this.datosProcesos = procesos.filter((data) => !this.busquedaCliente || data.cliente.toLowerCase().includes(this.busquedaCliente.toLowerCase()))
     },
     handleSelectionChange(val) {
       // console.log(val)
@@ -388,8 +377,8 @@ export default {
       if (this.multipleSelection.length) {
         this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['EXPEDIENTE', 'SERVICIO', 'EMPRESA', 'CADUCIDAD O FECHA VENCIMIENTO/ TÉRMINO PARA RESOLVER REP(DD-MM-AA)', 'ESTADO', 'ABOGADO']
-          const filterVal = ['expediente', 'servicio', 'empresa', 'caducidad', 'estado', 'usuario']
+          const tHeader = ['Numeración', 'Cliente / CUFE', 'Creación (DD-MM-AA)', 'Total', 'Vendedor']
+          const filterVal = ['idfactura', 'cliente', 'f_creacion', 'total', 'usuario']
           const list = this.multipleSelection
           const data = this.formatJson(filterVal, list)
           excel.export_json_to_excel({
@@ -402,7 +391,7 @@ export default {
         })
       } else {
         this.$message({
-          message: 'Seleccione al menos un proceso',
+          message: 'Seleccione al menos una factura',
           type: 'warning'
         })
       }
@@ -419,11 +408,11 @@ export default {
       }
       this.getProcesos()
       this.getUsuarios()
-      this.getServicios()
-      this.getEmpresas()
+      this.getClientes()
+      // this.getEmpresas()
     },
     async getProcesos() {
-      await getListProcesos().then((response) => {
+      await getListFacturas().then((response) => {
         let procesos = []
         if (this.roles[0] === 'administrador') {
           procesos = response
@@ -431,16 +420,16 @@ export default {
           procesos = response.filter((proceso) => proceso.idusuario === this.idusuario)
         }
         procesos = procesos.map((proceso) => {
-          if (proceso.caducidad !== 'None') {
-            const mes = moment(proceso.caducidad).format('MM')
-            const ano = moment(proceso.caducidad).format('YYYY')
-            proceso.textCaducidad = ano + '-' + mes
-            proceso.valueCaducidad = mes + '/' + ano
-            proceso.caducidad = new Date(moment(proceso.caducidad).format('YYYY/MM/DD HH:mm:ss')) // Se transforma la caducidad a tipo fecha
+          if (proceso.f_creacion !== 'None') {
+            const mes = moment(proceso.f_creacion).format('MM')
+            const ano = moment(proceso.f_creacion).format('YYYY')
+            proceso.textF_creacion = ano + '-' + mes
+            proceso.valueF_creacion = mes + '/' + ano
+            proceso.f_creacion = new Date(moment(proceso.f_creacion).format('YYYY/MM/DD HH:mm:ss')) // Se transforma la caducidad a tipo fecha
           } else {
-            proceso.textCaducidad = 'No registra'
-            proceso.valueCaducidad = 'No registra'
-            proceso.caducidad = 'No registra'
+            proceso.textF_creacion = 'No registra'
+            proceso.valueF_creacion = 'No registra'
+            proceso.f_creacion = 'No registra'
           }
           // console.log(proceso.caducidad)
           return proceso
@@ -448,26 +437,24 @@ export default {
         window.localStorage.setItem('procesos', JSON.stringify(procesos))
         this.datosProcesos = procesos
         this.loading = false
-        // console.log('Procesos -> ', this.datosProcesos)
+        console.log('Procesos -> ', this.datosProcesos)
         this.setFilters()
       })
     },
     setFilters() {
       this.datosProcesos.forEach((item) => {
-        this.filterExpediente.push({ text: item.expediente, value: item.expediente })
-        this.filterEmpresa.push({ text: item.empresa, value: item.empresa })
-        this.filterServicio.push({ text: item.servicio, value: item.servicio })
-        this.filterEstado.push({ text: item.estado, value: item.estado })
-        this.filterCaducidad.push({ text: item.textCaducidad, value: item.valueCaducidad })
-        this.filterAbogado.push({ text: item.usuario, value: item.usuario })
+        this.filterFactura.push({ text: item.idfactura, value: item.idfactura })
+        this.filterCliente.push({ text: item.cliente, value: item.cliente })
+        this.filterFcreacion.push({ text: item.textF_creacion, value: item.valueF_creacion })
+        this.filterTotal.push({ text: item.total, value: item.total })
+        this.filterVendedor.push({ text: item.usuario, value: item.usuario })
       })
-      this.filters.filterExpediente = this.getUniqueListBy(this.filterExpediente, 'text')
-      this.filters.filterEmpresa = this.getUniqueListBy(this.filterEmpresa, 'text')
-      this.filters.filterServicio = this.getUniqueListBy(this.filterServicio, 'text')
-      this.filters.filterEstado = this.getUniqueListBy(this.filterEstado, 'text')
-      this.filters.filterCaducidad = this.getUniqueListBy(this.filterCaducidad, 'text')
-      this.filters.filterCaducidad = this.orderByDate(this.filters.filterCaducidad)
-      this.filters.filterAbogado = this.getUniqueListBy(this.filterAbogado, 'text')
+      this.filters.filterFactura = this.getUniqueListBy(this.filterFactura, 'text')
+      this.filters.filterCliente = this.getUniqueListBy(this.filterCliente, 'text')
+      this.filters.filterFcreacion = this.getUniqueListBy(this.filterFcreacion, 'text')
+      this.filters.filterFcreacion = this.orderByDate(this.filters.filterFcreacion)
+      this.filters.filterTotal = this.getUniqueListBy(this.filterTotal, 'text')
+      this.filters.filterVendedor = this.getUniqueListBy(this.filterVendedor, 'text')
     },
     getUniqueListBy(arr, key) {
       return [...new Map(arr.map(item => [item[key], item])).values()]
@@ -495,9 +482,10 @@ export default {
         this.datosUsuarios = response
       })
     },
-    async getServicios() {
-      await getListServicios().then((response) => {
-        this.datosServicios = response
+    async getClientes() {
+      await getListClientes().then((response) => {
+        console.log('CLIENTES -> ', response);
+        this.datosClientes = response
       })
     },
     async getEmpresas() {
@@ -514,7 +502,7 @@ export default {
     filterHandler(value, row, column) {
       const property = column['property']
       let valueProperty = row[property]
-      if (property === 'caducidad') {
+      if (property === 'f_creacion') {
         if (valueProperty !== 'No registra') {
           valueProperty = moment(valueProperty).format('DD/MM/YYYY').substring(3, 10)
         }
@@ -524,7 +512,7 @@ export default {
     },
     /* Evento click boton permisos */
     handlePermisos(data) {
-      this.formUsuario.expediente = data.expediente
+      this.formUsuario.idfactura = data.idfactura
       this.formUsuario.usuario = data.idusuario
       this.msgUsuarioVisible = true
     },
@@ -536,10 +524,10 @@ export default {
     },
     async borrarExpediente() {
       this.loading = true
-      await deleteProceso(this.delIdproceso).then((response) => {
+      await deleteFactura(this.delIdproceso).then((response) => {
         this.$notify({
           title: 'Información',
-          message: 'Se ha eliminado el expediente',
+          message: 'Se ha eliminado la factura',
           type: 'warning',
           duration: 2000
         })
@@ -549,10 +537,10 @@ export default {
     },
     async asignarUsuario() {
       this.loading = true
-      await updateProcesoUsuario(this.formUsuario).then((response) => {
+      await updateFacturaUsuario(this.formUsuario).then((response) => {
         this.$notify({
           title: 'Bien hecho!',
-          message: 'Expediente actualizado con éxito',
+          message: 'Factura actualizada con éxito',
           type: 'success',
           duration: 2000
         })
@@ -575,22 +563,24 @@ export default {
       this.formAgregar = {}
       this.disableEmpresas = true
     },
-    async agregarExpediente(formName) {
+    async agregarFactura(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          const modelFactura = this.formAgregar
           this.msgAgregarVisible = false
-          // console.log(this.formAgregar)
           this.loading = true
-          // console.log('FORMAGREGAR -> ', this.formAgregar)
-          createProceso(this.formAgregar).then((response) => {
+          modelFactura.f_emision = moment(modelFactura.f_emision).format('DD/MM/YYYY HH:mm:ss')
+          console.log('FORMAGREGAR -> ', modelFactura)
+          createFactura(modelFactura).then((response) => {
             this.$notify({
               title: 'Buen trabajo!',
-              message: 'Expediente agregado con éxito',
+              message: 'Factura agregada con éxito',
               type: 'success',
               duration: 2000
             })
-            this.getProcesos()
             this.$refs['formAgregar'].resetFields()
+            this.getProcesos()
+            this.setFilters()
           })
         } else {
           // console.log('error submit!!')

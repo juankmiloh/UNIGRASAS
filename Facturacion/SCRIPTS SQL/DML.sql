@@ -34,14 +34,14 @@ VALUES (2, 830090675, 7, 'UNIGRASAS COLOMBIA S.A.S', 'Carrera 97 # 24c-51', 'Col
 -- DML TABLA USUARIO
 ----------------------------
 INSERT INTO `UNIGRASAS`.`USUARIO` (`NOMBRE`, `APELLIDO`, `IDGENERO`, `NICKNAME`, `DESCRIPCION`, `IDROL`, `AVATAR`, `CONTRASENA`, `TOKEN`, `IDENTIFICACION`, `IDEMPRESA`, `TELEFONO`, `EMAIL`)
-VALUES ('Nardia', 'Unigrasas', 1, 'nardia', 'Administrador del sistema', 1, 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', '123456', 'nardia-token', 830090675, 1, 3507259492, 'nardia.unigrasas2015@gmail.com');
+VALUES ('Nardia', 'Infante', 1, 'nardia', 'Administrador del sistema', 1, 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', '123456', 'nardia-token', 830090675, 1, 3507259492, 'nardia.unigrasas2015@gmail.com');
 
 
 ----------------------------
 -- DML TABLA CLIENTE
 ----------------------------
 INSERT INTO `UNIGRASAS`.`CLIENTE` (`IDTIPO_PERSONA`, `NIT`, `NOMBRE`, `EMAIL`, `TELEFONO`, `F_REGISTRO`)
-VALUES (1, 3507259492, 'PRODUCTOS LACTEOS DEL TOLIMA S.A.S', 'gerenciacomercial@maxifritos.com', 3002179843, CURRENT_TIMESTAMP);
+VALUES (1, 901130142, 'PASTELERIA GOURMET MEGAPAN S.A.S', 'cfavilab@gmail.com', 3102821602, CURRENT_TIMESTAMP);
 
 
 ----------------------------
@@ -62,16 +62,25 @@ INSERT INTO `UNIGRASAS`.`MEDIO_PAGO` (`NOMBRE`) VALUES ('PSE');
 ----------------------------
 -- DML TABLA ITEM
 ----------------------------
-INSERT INTO `UNIGRASAS`.`ITEM` (`COD_ITEM`, `NOMBRE`, `PRECIO`, `DESCRIPCION`) VALUES (10001, 'MARGARINA INDUSTRIAL AVELLANA T.C', 1, '');
+INSERT INTO `UNIGRASAS`.`ITEM` (`COD_ITEM`, `NOMBRE`, `PRECIO`, `DESCRIPCION`)
+VALUES (10000, 'MARGARINA INDUSTRIAL AVELLANA T.F', 1, '');
+
+
+----------------------------
+-- DML TABLA ESTADO
+----------------------------
+INSERT INTO `UNIGRASAS`.`ESTADO` (`NOMBRE`) VALUES ('En curso');
+INSERT INTO `UNIGRASAS`.`ESTADO` (`NOMBRE`) VALUES ('Pagada');
+INSERT INTO `UNIGRASAS`.`ESTADO` (`NOMBRE`) VALUES ('Vencida');
 
 
 ----------------------------
 -- DML TABLA FACTURA
 ----------------------------
-INSERT INTO `UNIGRASAS`.`FACTURA` (`IDCLIENTE`, `IDMETODO_PAGO`, `IDMEDIO_PAGO`, `IDUSUARIO`, `DIVISA`, `F_EMISION`, `F_VENCIMIENTO`, `F_PAGO`, `TOTAL`, `DESCRIPCION`)
-VALUES (1, 1, 3, 1, 'COP - Colombia, Pesos', CURRENT_TIMESTAMP, NULL, NULL, 0, '');
+-- INSERT INTO `UNIGRASAS`.`FACTURA` (`IDCLIENTE`, `IDUSUARIO`, `IDESTADO`, `DIVISA`, `F_EMISION`, `TOTAL`, `F_REGISTRO`)
+-- VALUES (1, 1, 1, 'COP - Colombia, Pesos', CURRENT_TIMESTAMP, 0, CURRENT_TIMESTAMP);
 
 ----------------------------
 -- DML TABLA FACTURA_HAS_ITEM
 ----------------------------
-INSERT INTO `UNIGRASAS`.`FACTURA_HAS_ITEM` (`IDFACTURA`, `IDITEM`, `CANTIDAD`) VALUES (1, 1, 120);
+-- INSERT INTO `UNIGRASAS`.`FACTURA_HAS_ITEM` (`IDFACTURA`, `IDITEM`, `CANTIDAD`) VALUES (1, 1, 120);

@@ -59,13 +59,17 @@ class UsuariosService:
                     'idusuario': result[1],
                     'nombre': result[2],
                     'apellido': str(result[3]),
-                    'nickname': str(result[4]),
-                    'descripcion': result[5],
-                    'rol': result[6],
-                    'avatar': result[7],
+                    'nickname': str(result[5]),
+                    'descripcion': result[6],
+                    'rol': result[7],
+                    'avatar': result[8],
                     'contrasena': '',
-                    'token': result[9],
-                    'genero': result[11]
+                    'token': result[10],
+                    'identificacion': result[11],
+                    'empresa': result[12],
+                    'telefono': result[13],
+                    'email': result[14],
+                    'genero': result[15]
                 }
             )
         return usuarios

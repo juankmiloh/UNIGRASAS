@@ -1,47 +1,35 @@
 /* jshint esversion: 6 */
 /* eslint-disable */
 export const CONSTANTS = {
-    tableColumnsAdmin: [
-        // {
-        //     label: '#',
-        //     prop: 'idproceso',
-        //     width: 67
-        // },
-        {
-            label: 'Expediente',
-            prop: 'expediente',
-            width: 156,
-            filter: 'filterExpediente'
+    tableColumnsAdmin: [{
+            label: 'Numeración',
+            prop: 'idfactura',
+            width: '',
+            filter: 'filterFactura'
         },
         {
-            label: 'Servicio',
-            prop: 'servicio',
-            width: 112,
-            filter: 'filterServicio'
+            label: 'Cliente / CUFE',
+            prop: 'cliente',
+            width: 350,
+            filter: 'filterCliente'
         },
         {
-            label: 'Empresa',
-            prop: 'empresa',
-            width: 245,
-            filter: 'filterEmpresa'
+            label: 'Creacion',
+            prop: 'f_creacion',
+            width: '',
+            filter: 'filterFcreacion'
         },
         {
-            label: 'Caducidad',
-            prop: 'caducidad',
-            width: 135,
-            filter: 'filterCaducidad'
+            label: 'Total',
+            prop: 'total',
+            width: '',
+            filter: 'filterTotal'
         },
         {
-            label: 'Estado',
-            prop: 'estado',
-            width: 187,
-            filter: 'filterEstado'
-        },
-        {
-            label: 'Abogado',
+            label: 'Vendedor',
             prop: 'usuario',
-            width: 150,
-            filter: 'filterAbogado'
+            width: '',
+            filter: 'filterVendedor'
         }
     ],
     tableColumnsAbogado: [
@@ -112,18 +100,24 @@ export const CONSTANTS = {
         { text: 'GLP', value: 'GLP' },
     ],
     rulesFormProceso: {
-        radicado: [
-            { required: true, message: 'Ingrese un expediente', trigger: 'blur' },
-            { min: 17, max: 17, message: 'La longitud del expediente debe ser de 17 caracteres', trigger: 'blur' }
-        ],
-        servicio: [{
+        // idfactura: [
+        //     { required: true, message: 'Ingrese numeración', trigger: 'blur' },
+        //     // { min: 17, max: 17, message: 'La longitud del expediente debe ser de 17 caracteres', trigger: 'blur' }
+        // ],
+        cliente: [{
             required: true,
-            message: 'Seleccione un servicio',
+            message: 'Seleccione un cliente',
             trigger: 'change'
         }],
-        empresa: [{
+        divisa: [{
             required: true,
-            message: 'Seleccione una empresa',
+            message: 'Seleccione una divisa',
+            trigger: 'change'
+        }],
+        f_emision: [{
+            type: 'date',
+            required: true,
+            message: 'Ingrese una fecha válida',
             trigger: 'change'
         }],
         usuario: [{
@@ -131,23 +125,17 @@ export const CONSTANTS = {
             message: 'Seleccione un usuario',
             trigger: 'change'
         }],
-        fecha_caducidad: [{
-            type: 'date',
-            required: true,
-            message: 'Ingrese una fecha válida',
-            trigger: 'change'
-        }]
     },
     formAgregar: {
-        radicado: '',
-        servicio: '',
-        empresa: '',
-        usuario: '',
-        fecha_caducidad: null
+        // idfactura: '',
+        cliente: '',
+        divisa: '',
+        f_emision: '',
+        usuario: ''
     },
     formUsuario: {
         usuario: '',
-        expediente: ''
+        idfactura: ''
     },
     formDetalleProceso: {
         expediente: '',

@@ -8,7 +8,7 @@ class UsuariosRepository:
     def autenticar_usuario(self, usuario):
         print('LOGIN USUARIO - >', usuario)
         sql = '''
-            SELECT TOKEN FROM USUARIOS
+            SELECT TOKEN FROM USUARIO
             WHERE 
                 NICKNAME = :USER_ARG
             AND CONTRASENA = :PASS_ARG;
@@ -19,44 +19,44 @@ class UsuariosRepository:
         print('TOKEN USUARIO -> ', token)
         sql = '''
             SELECT 
-                R.DESCRIPCION,
+                R.NOMBRE,
                 U.DESCRIPCION,
                 U.NICKNAME,
-                U.NOMBRE||' '||U.APELLIDO AS USUARIO,
+                CONCAT_WS(' ', U.NOMBRE, U.APELLIDO) AS USUARIO,
                 U.IDUSUARIO,
-                CASE WHEN (U.GENERO = 1 AND U.ROL = 1) THEN 'Administrador'
-                ELSE CASE WHEN (U.GENERO = 2 AND U.ROL = 1) THEN 'Administradora'
-                ELSE CASE WHEN (U.GENERO = 1 AND U.ROL = 2) THEN 'Abogado'
-                ELSE CASE WHEN (U.GENERO = 2 AND U.ROL = 2) THEN 'Abogada'
+                CASE WHEN (U.IDGENERO = 1 AND U.IDROL = 1) THEN 'Administrador'
+                ELSE CASE WHEN (U.IDGENERO = 2 AND U.IDROL = 1) THEN 'Administradora'
+                ELSE CASE WHEN (U.IDGENERO = 1 AND U.IDROL = 2) THEN 'Vendedor'
+                ELSE CASE WHEN (U.IDGENERO = 2 AND U.IDROL = 2) THEN 'Vendedora'
                 ELSE 'Consulta' END END END END AS PRIVILEGIO,
                 U.AVATAR
-            FROM USUARIOS U, ROL R
+            FROM USUARIO U, ROL R
             WHERE 
-                U.ROL = R.IDROL
+                U.IDROL = R.IDROL
                 AND TOKEN = :TOKEN_ARG;
         '''
         return self.db.engine.execute(text(sql), TOKEN_ARG=token).fetchall()
 
     def get_usuarios_bd(self):
         sql = '''
-            SELECT * FROM USUARIOS WHERE ROL <> 3 ORDER BY NOMBRE ASC;
+            SELECT * FROM USUARIO WHERE IDROL <> 3 ORDER BY NOMBRE ASC;
         '''
         return self.db.engine.execute(text(sql)).fetchall()
 
     def get_lista_usuarios_bd(self):
         sql = '''
             SELECT
-                CASE WHEN (U.GENERO = 1 AND U.ROL = 1) THEN 'Administrador'
-                ELSE CASE WHEN (U.GENERO = 2 AND U.ROL = 1) THEN 'Administradora'
-                ELSE CASE WHEN (U.GENERO = 1 AND U.ROL = 2) THEN 'Abogado'
-                ELSE CASE WHEN (U.GENERO = 2 AND U.ROL = 2) THEN 'Abogada'
+                CASE WHEN (U.IDGENERO = 1 AND U.IDROL = 1) THEN 'Administrador'
+                ELSE CASE WHEN (U.IDGENERO = 2 AND U.IDROL = 1) THEN 'Administradora'
+                ELSE CASE WHEN (U.IDGENERO = 1 AND U.IDROL = 2) THEN 'Vendedor'
+                ELSE CASE WHEN (U.IDGENERO = 2 AND U.IDROL = 2) THEN 'Vendedora'
                 ELSE 'Consulta' END END END END AS PRIVILEGIO,
                 U.*,
                 G.NOMBRE
-            FROM USUARIOS U, ROL R, GENERO G
+            FROM USUARIO U, ROL R, GENERO G
             WHERE 
-                U.ROL = R.IDROL
-                AND U.GENERO = G.IDGENERO
+                U.IDROL = R.IDROL
+                AND U.IDGENERO = G.IDGENERO
             ORDER BY U.NOMBRE ASC;
         '''
         return self.db.engine.execute(text(sql)).fetchall()
@@ -69,28 +69,17 @@ class UsuariosRepository:
     
     def get_nicknames_bd(self):
         sql = '''
-            SELECT NOMBRE, APELLIDO, NICKNAME FROM USUARIOS;
+            SELECT NOMBRE, APELLIDO, NICKNAME FROM USUARIO;
         '''
         return self.db.engine.execute(text(sql)).fetchall()
-
-    def usuarios_insert_bd(self, nombre_estado):
-        # sql = '''
-        #     INSERT INTO public.estado(nombreestado)
-        #     VALUES (:nombre_estado_sql)
-        # '''
-        sql = '''
-            INSERT INTO public.servicio(nombre)
-            VALUES (:nombre_estado_sql);
-        '''
-        return self.db.engine.execute(text(sql), nombre_estado_sql=nombre_estado)
     
     def usuarios_create_bd(self, usuario):
         sql = '''
-            INSERT INTO USUARIOS
-            (NOMBRE, APELLIDO, GENERO, NICKNAME, DESCRIPCION, ROL, AVATAR, CONTRASENA, TOKEN) 
-            VALUES (:NOMBRE_ARG, :APELLIDO_ARG, :GENERO_ARG, :NICKNAME_ARG, :DESCRIPCION_ARG, :ROL_ARG, :AVATAR_ARG, :CONTRASENA_ARG, :TOKEN_ARG);
+            INSERT INTO USUARIO
+            (NOMBRE, APELLIDO, IDGENERO, NICKNAME, DESCRIPCION, IDROL, AVATAR, CONTRASENA, TOKEN, IDEMPRESA) 
+            VALUES (:NOMBRE_ARG, :APELLIDO_ARG, :GENERO_ARG, :NICKNAME_ARG, :DESCRIPCION_ARG, :ROL_ARG, :AVATAR_ARG, :CONTRASENA_ARG, :TOKEN_ARG, :EMPRESA_ARG);
         '''
-        return self.db.engine.execute(text(sql), NOMBRE_ARG=usuario['nombre'], APELLIDO_ARG=usuario['apellido'], GENERO_ARG=usuario['genero'], NICKNAME_ARG=usuario['nickname'], DESCRIPCION_ARG=usuario['descripcion'], ROL_ARG=usuario['rol'], AVATAR_ARG=usuario['avatar'], CONTRASENA_ARG=usuario['contrasena'], TOKEN_ARG=usuario['token'])
+        return self.db.engine.execute(text(sql), NOMBRE_ARG=usuario['nombre'], APELLIDO_ARG=usuario['apellido'], GENERO_ARG=usuario['genero'], NICKNAME_ARG=usuario['nickname'], DESCRIPCION_ARG=usuario['descripcion'], ROL_ARG=usuario['rol'], AVATAR_ARG=usuario['avatar'], CONTRASENA_ARG=usuario['contrasena'], TOKEN_ARG=usuario['token'], EMPRESA_ARG=1)
     
     def usuario_update_bd(self, usuario):
         print('-------------------------------------')
@@ -98,13 +87,13 @@ class UsuariosRepository:
         print('-------------------------------------')
         if usuario['contrasena'] != '':    
             sql = '''
-                UPDATE USUARIOS SET
+                UPDATE USUARIO SET
                     NOMBRE = :NOMBRE_ARG,
                     APELLIDO = :APELLIDO_ARG,
-                    GENERO = :GENERO_ARG,
+                    IDGENERO = :GENERO_ARG,
                     NICKNAME = :NICKNAME_ARG,
                     DESCRIPCION = :DESCRIPCION_ARG,
-                    ROL = :ROL_ARG,
+                    IDROL = :ROL_ARG,
                     AVATAR = :AVATAR_ARG,
                     CONTRASENA = :CONTRASENA_ARG,
                     TOKEN = :TOKEN_ARG
@@ -112,13 +101,13 @@ class UsuariosRepository:
             '''
         else:
             sql = '''
-                UPDATE USUARIOS SET
+                UPDATE USUARIO SET
                     NOMBRE = :NOMBRE_ARG,
                     APELLIDO = :APELLIDO_ARG,
-                    GENERO = :GENERO_ARG,
+                    IDGENERO = :GENERO_ARG,
                     NICKNAME = :NICKNAME_ARG,
                     DESCRIPCION = :DESCRIPCION_ARG,
-                    ROL = :ROL_ARG,
+                    IDROL = :ROL_ARG,
                     AVATAR = :AVATAR_ARG,
                     TOKEN = :TOKEN_ARG
                 WHERE IDUSUARIO = :IDUSUARIO_ARG;
@@ -131,7 +120,7 @@ class UsuariosRepository:
         print('* USUARIO A ELIMINAR -> ', idusuario)
         print('-------------------------------------')
         sql = '''
-            DELETE FROM USUARIOS
+            DELETE FROM USUARIO
 	        WHERE IDUSUARIO = :IDUSUARIO_ARG;
         '''
         resultsql = self.db.engine.execute(text(sql), IDUSUARIO_ARG=idusuario)

@@ -280,7 +280,7 @@ export default {
             const modelUser = this.formUsuario
             modelUser.token = `${modelUser.nickname}-token`
             modelUser.rol = Number(modelUser.rol)
-            modelUser.contrasena = md5(modelUser.contrasena)
+            // modelUser.contrasena = md5(modelUser.contrasena)
             modelUser.genero = this.dataGenero.find((genero) => genero.nombre === modelUser.genero).idgenero
             // console.log('Guardar modelUser -> ', modelUser)
             await createUser(modelUser).then(async(response) => {

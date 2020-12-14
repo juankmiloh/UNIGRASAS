@@ -4,10 +4,10 @@
     <el-header>
       <el-row :gutter="10">
         <el-col :xs="4" :md="1" class="cont-logo">
-          <img :src="logPage2" alt="Page" class="imgLogPage">
+          <img :src="logPage" alt="Page" class="imgLogPage">
         </el-col>
         <el-col :xs="20" :md="20">
-          <label class="text-logo" style="padding-left: 0%;">PROCESOS DIEG</label>
+          <label class="text-logo" style="padding-left: 1%;">FACTURACIÓN</label>
         </el-col>
         <!-- <el-col :xs="4" :md="3" class="cont-logo">
           <img :src="logPage1" alt="Page" class="imgLogPage">
@@ -73,7 +73,7 @@
 
     <div class="footer-login">
       <span class="textoFooter">
-        SDEGC | CIAD - SUPERSERVICIOS ©&nbsp;2020
+        UNIGRASAS ©&nbsp;2020
       </span>
     </div>
   </el-container>
@@ -81,10 +81,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
-import logSuper from '@/assets/superservicios1.png'
-import logPage2 from '@/assets/escudo-colombia.png'
-import logPage from '@/assets/bandera.png'
-import logPage1 from '@/assets/mazo.png'
+import logPage from '@/assets/factura1.png'
 import { getListNicknames } from '@/api/procesosDIEG/usuarios'
 import md5 from 'md5'
 import { mapGetters } from 'vuex'
@@ -111,14 +108,11 @@ export default {
       }
     }
     return {
-      logSuper: logSuper,
       logPage: logPage,
-      logPage1: logPage1,
-      logPage2: logPage2,
       loginForm: {
         // username: '',
         // password: ''
-        username: 'mortega',
+        username: 'nardia',
         password: '123456'
       },
       loginRules: {
@@ -205,7 +199,7 @@ export default {
       })
     },
     handleLogin() {
-      this.loginForm.password = md5(this.loginForm.password)
+      // this.loginForm.password = md5(this.loginForm.password)
       // console.log('contrasena -> ', this.loginForm.password)
       this.$refs.loginForm.validate((valid) => {
         if (valid) {

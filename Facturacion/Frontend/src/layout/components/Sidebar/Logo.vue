@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import logPage from '../../../assets/bandera-circle.png'
+import logPage from '../../../assets/factura1.png'
 
 export default {
   name: 'SidebarLogo',
@@ -30,7 +30,7 @@ export default {
   },
   data() {
     return {
-      title: 'Procesos DIEG',
+      title: 'Facturación',
       logo: logPage
     }
   }

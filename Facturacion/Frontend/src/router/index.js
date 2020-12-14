@@ -188,7 +188,7 @@ export const asyncRoutes = [{
             //       name: 'PagePermission',
             //       meta: {
             //           title: 'Page Permission',
-            //           roles: ['administrador', 'abogado'] // or you can only set roles in sub nav
+            //           roles: ['administrador', 'vendedor'] // or you can only set roles in sub nav
             //       }
             //   },
             // {
@@ -234,7 +234,7 @@ export const asyncRoutes = [{
                 component: () =>
                     import ('@/views/proceso/Lista'),
                 name: 'Procesos',
-                meta: { title: 'Procesos', icon: 'example', noCache: false, roles: ['administrador', 'abogado'] }
+                meta: { title: 'Facturas', icon: 'example', noCache: false, roles: ['administrador', 'vendedor'] }
             },
             {
                 path: 'detalle/:id',
@@ -244,7 +244,7 @@ export const asyncRoutes = [{
                 component: () =>
                     import ('@/views/proceso/Detalle'),
                 name: 'DetalleProceso',
-                meta: { title: 'Detalle proceso', icon: 'example', noCache: false, activeMenu: '/procesos/expedientes', roles: ['administrador', 'abogado', 'consulta'] },
+                meta: { title: 'Detalle proceso', icon: 'example', noCache: false, activeMenu: '/procesos/expedientes', roles: ['administrador', 'vendedor', 'consulta'] },
                 hidden: true
             },
         ]
@@ -258,7 +258,7 @@ export const asyncRoutes = [{
         meta: {
             title: 'Informes',
             icon: 'chart',
-            roles: ['administrador', 'abogado', 'consulta'] // you can set roles in root nav
+            roles: ['administrador', 'vendedor', 'consulta'] // you can set roles in root nav
         },
         children: [
             // {
@@ -268,7 +268,7 @@ export const asyncRoutes = [{
             //       name: 'PagePermission',
             //       meta: {
             //           title: 'Page Permission',
-            //           roles: ['administrador', 'abogado'] // or you can only set roles in sub nav
+            //           roles: ['administrador', 'vendedor'] // or you can only set roles in sub nav
             //       }
             //   },
             // {
@@ -289,7 +289,7 @@ export const asyncRoutes = [{
                 meta: {
                     title: 'Expedientes',
                     icon: 'excel',
-                    roles: ['administrador', 'abogado', 'consulta']
+                    roles: ['administrador', 'vendedor', 'consulta']
                 }
             },
         ]

@@ -7,43 +7,10 @@ class ProcesosRepository:
 
     def get_procesos_bd(self):
         sql = '''
-            SELECT * FROM
-            (
-                SELECT 
-                    P.IDPROCESO,
-                    P.RADICADOPROCESO AS EXPEDIENTE,
-                    P.FECHACADUCIDAD AS CADUCIDAD,
-                    EMP.NOMBRE AS EMPRESA,
-                    ES.NOMBREESTADO AS ESTADO,
-                    S.NOMBRE AS SERVICIO,
-                    U.IDUSUARIO AS IDUSUARIO,
-                    U.NOMBRE || ' ' || U.APELLIDO AS USUARIO,
-                    EP.ETAPA
-                FROM
-                    EMPRESA EMP, SERVICIO S, PROCESO P, USUARIOS U, ETAPA_PROCESO EP, ETAPA E, ESTADO ES
-                WHERE
-                    P.FASE NOT IN (3)
-                    AND P.IDPROCESO = EP.PROCESO
-                    AND EP.ETAPA = E.IDETAPA
-                    AND E.IDESTADO = ES.IDESTADO
-                    AND P.EMPRESA = EMP.IDEMPRESA
-                    AND EMP.SERVICIO = S.IDSERVICIO
-                    AND P.IDSERVICIO = S.IDSERVICIO
-                    AND P.USUARIOASIGNADO = U.IDUSUARIO
-            ) PROCESO,
-            (
-                SELECT 
-                    P.IDPROCESO,
-                    MIN(EP.ETAPA) AS IDETAPA
-                FROM PROCESO P, ETAPA_PROCESO EP
-                WHERE
-                    P.IDPROCESO = EP.PROCESO
-                GROUP BY P.IDPROCESO
-            ) ETAPA
-            WHERE
-                PROCESO.IDPROCESO = ETAPA.IDPROCESO
-                AND PROCESO.ETAPA = ETAPA.IDETAPA
-            ORDER BY PROCESO.IDPROCESO DESC;
+            SELECT F.IDFACTURA, C.NOMBRE, F.F_EMISION, F.TOTAL, U.IDUSUARIO, CONCAT_WS(' ', U.NOMBRE, U.APELLIDO) AS USUARIO FROM FACTURA F, CLIENTE C, USUARIO U
+            WHERE F.IDCLIENTE = C.IDCLIENTE
+            AND F.IDUSUARIO = U.IDUSUARIO
+            ORDER BY F.IDFACTURA DESC;
         '''
         return self.db.engine.execute(text(sql)).fetchall()
     
@@ -151,26 +118,26 @@ class ProcesosRepository:
 
     def proceso_insert_bd(self, proceso):
         print('-------------------------------------')
-        print('OBJ PROCESO -> ', proceso)
+        print('OBJ FACTURA -> ', proceso)
         print('-------------------------------------')
         sql = '''
-            INSERT INTO PROCESO(RADICADOPROCESO, USUARIOASIGNADO, EMPRESA, IDSERVICIO, FASE, FECHAREGISTRO)
-            VALUES (:RADICADO_ARG, :USUARIO_ARG, :EMPRESA_ARG, :SERVICIO_ARG, :FASE_ARG, CURRENT_TIMESTAMP);
+            INSERT INTO FACTURA(IDCLIENTE, IDUSUARIO, IDESTADO, DIVISA, F_EMISION, TOTAL, F_REGISTRO)
+            VALUES (:IDCLIENTE_ARG, :IDUSUARIO_ARG, :ESTADO_ARG, :DIVISA_ARG, STR_TO_DATE(:F_EMISION_ARG,'%d/%m/%Y %H:%i:%s'), :TOTAL_ARG, CURRENT_TIMESTAMP);
         '''
-        resultsql = self.db.engine.execute(text(sql), RADICADO_ARG=proceso["radicado"], USUARIO_ARG=proceso["usuario"], EMPRESA_ARG=proceso["empresa"], SERVICIO_ARG=proceso["servicio"], FASE_ARG=1)
+        resultsql = self.db.engine.execute(text(sql), IDCLIENTE_ARG=proceso["cliente"], IDUSUARIO_ARG=proceso["usuario"], ESTADO_ARG=1, DIVISA_ARG=proceso["divisa"], TOTAL_ARG=0, F_EMISION_ARG=proceso["f_emision"])
 
         return resultsql
     
     def proceso_usuario_update_bd(self, dataProceso):
         print('-------------------------------------')
-        print('* PROCESO A ACTUALIZAR -> ', dataProceso)
+        print('* FACTURA A ACTUALIZAR -> ', dataProceso)
         print('-------------------------------------')
         sql = '''
-            UPDATE PROCESO
-            SET USUARIOASIGNADO = :IDUSUARIO_ARG
-            WHERE RADICADOPROCESO = :RADICADO_ARG;
+            UPDATE FACTURA
+            SET IDUSUARIO = :IDUSUARIO_ARG
+            WHERE IDFACTURA = :IDFACTURA_ARG;
         '''
-        resultsql = self.db.engine.execute(text(sql), RADICADO_ARG=dataProceso["expediente"], IDUSUARIO_ARG=dataProceso["usuario"])
+        resultsql = self.db.engine.execute(text(sql), IDFACTURA_ARG=dataProceso["idfactura"], IDUSUARIO_ARG=dataProceso["usuario"])
 
         return resultsql
 

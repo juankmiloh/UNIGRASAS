@@ -18,14 +18,12 @@ class ProcesosService:
     
             procesos.append(
                 {
-                    'idproceso': result[0],
-                    'expediente': result[1],
-                    'caducidad': str(result[2]),
-                    'empresa': result[3].capitalize(),
-                    'estado': result[4],
-                    'servicio': result[5],
-                    'idusuario': result[6],
-                    'usuario': result[7],
+                    'idfactura': result[0],
+                    'cliente': result[1],
+                    'f_creacion': str(result[2]),
+                    'total': result[3],
+                    'idusuario': result[4],
+                    'usuario': result[5]
                 }
             )
         return procesos

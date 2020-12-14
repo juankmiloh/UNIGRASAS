@@ -12,7 +12,7 @@ def home(path):
 
     return render_template("dist/index.html", url_base=script_root + "front/dist" )
 
-@controller.route('procesosDIEG/api/', methods=['GET'], defaults={'path': ''})
+@controller.route('UNIGRASAS/api/', methods=['GET'], defaults={'path': ''})
 def home_api(path):
     script_root  = request.script_root
     
