@@ -85,7 +85,7 @@
               class="control-modal"
               clearable
             >
-              <el-option label="COP - Colombia, Pesos" value="COP - Colombia, Pesos"></el-option>
+              <el-option label="COP - Colombia, Pesos" value="COP - Colombia, Pesos" />
             </el-select>
           </el-form-item>
           <el-form-item label="Fecha emisión" prop="f_emision">
@@ -300,8 +300,8 @@ import {
 } from '@/api/unigrasas/facturas'
 import { getListUsuarios } from '@/api/unigrasas/usuarios'
 import { getListClientes } from '@/api/unigrasas/clientes'
-// import { getListEmpresas } from '@/api/procesosDIEG/empresas'
-// import { getAllEmpresas } from '@/api/procesosDIEG/empresas'
+import { getListEmpresas } from '@/api/procesosDIEG/empresas'
+import { getAllEmpresas } from '@/api/procesosDIEG/empresas'
 import elDragDialog from '@/directive/el-drag-dialog' // base on element-ui
 import Sticky from '@/components/Sticky' // 粘性header组件
 import moment from 'moment'
@@ -484,7 +484,7 @@ export default {
     },
     async getClientes() {
       await getListClientes().then((response) => {
-        console.log('CLIENTES -> ', response);
+        console.log('CLIENTES -> ', response)
         this.datosClientes = response
       })
     },
