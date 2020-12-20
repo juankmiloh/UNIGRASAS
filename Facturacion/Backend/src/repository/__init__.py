@@ -9,8 +9,9 @@ from .usuarios_repository import UsuariosRepository
 from .estados_repository import EstadosRepository
 from .tiposancion_repository import TiposancionRepository
 from .decision_repository import DecisionRepository
-from .causal_repository import CausalRepository
-from .etapa_repository import EtapaRepository
+from .metodopago_repository import MetodopagoRepository
+from .mediopago_repository import MediopagoRepository
+from .facturaHasItem_repository import FacturaHasItemRepository
 from .informe_repository import InformeRepository
 from .clientes_repository import ClientesRepository
 
@@ -28,8 +29,9 @@ class RepositoryModule(Module):
         estados_repository = EstadosRepository(self.db)
         tiposancion_repository = TiposancionRepository(self.db)
         decision_repository = DecisionRepository(self.db)
-        causal_repository = CausalRepository(self.db)
-        etapa_repository = EtapaRepository(self.db)
+        metodopago_repository = MetodopagoRepository(self.db)
+        mediopago_repository = MediopagoRepository(self.db)
+        facturaHasItem_repository = FacturaHasItemRepository(self.db)
         informe_repository = InformeRepository(self.db)
         clientes_repository = ClientesRepository(self.db)
 
@@ -41,7 +43,8 @@ class RepositoryModule(Module):
         binder.bind(EstadosRepository, to=estados_repository, scope=singleton)
         binder.bind(TiposancionRepository, to=tiposancion_repository, scope=singleton)
         binder.bind(DecisionRepository, to=decision_repository, scope=singleton)
-        binder.bind(CausalRepository, to=causal_repository, scope=singleton)
-        binder.bind(EtapaRepository, to=etapa_repository, scope=singleton)
+        binder.bind(MetodopagoRepository, to=metodopago_repository, scope=singleton)
+        binder.bind(MediopagoRepository, to=mediopago_repository, scope=singleton)
+        binder.bind(FacturaHasItemRepository, to=facturaHasItem_repository, scope=singleton)
         binder.bind(InformeRepository, to=informe_repository, scope=singleton)
         binder.bind(ClientesRepository, to=clientes_repository, scope=singleton)

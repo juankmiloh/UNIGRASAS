@@ -1,12 +1,12 @@
 from sqlalchemy.sql import text
 
 
-class CausalRepository:
+class MediopagoRepository:
     def __init__(self, db):
         self.db = db
 
-    def get_causal_bd(self):
+    def get_mediopago_bd(self):
         sql = '''
-            SELECT * FROM CAUSAL;
+            SELECT * FROM MEDIO_PAGO;
         '''
         return self.db.engine.execute(text(sql)).fetchall()

@@ -2,10 +2,11 @@
 /* eslint-disable */
 import request from '@/utils/request';
 
-export function getListFacturas() {
+export function getListFacturaItems(id) {
     return request({
-        url: '/procesos',
-        method: 'get'
+        url: '/facturaHasItems/detalle',
+        method: 'get',
+        params: { 'idproceso': id }
     });
 }
 

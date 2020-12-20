@@ -15,7 +15,7 @@ export const CONSTANTS = {
         },
         {
             label: 'Creacion',
-            prop: 'f_creacion',
+            prop: 'f_emision',
             width: '',
             filter: 'filterFcreacion'
         },
@@ -115,7 +115,7 @@ export const CONSTANTS = {
             trigger: 'change'
         }],
         f_emision: [{
-            type: 'date',
+            // type: 'date',
             required: true,
             message: 'Ingrese una fecha válida',
             trigger: 'change'
@@ -138,52 +138,62 @@ export const CONSTANTS = {
         idfactura: ''
     },
     formDetalleProceso: {
-        expediente: '',
-        tipo_sancion: '',
-        decision: '',
-        sancion: '',
-        causa: [],
-        descripcion: ''
+        idfactura: '',
+        cliente: '',
+        divisa: '',
+        f_emision: '',
+        f_vencimiento: '',
+        idusuario: '',
+        descripcion: '',
+        metodopago: '',
+        mediopago: '',
+        f_pago: '',
+        // total: ''
     },
     rulesDetalleProceso: {
-        expediente: [
-            { required: true, message: 'Ingrese un expediente', trigger: 'blur' },
-            { min: 17, max: 17, message: 'La longitud debe ser de 17 caracteres', trigger: 'blur' }
-        ],
-        empresa: [{
-            required: true,
-            message: 'Seleccione una empresa',
-            trigger: 'change'
-        }],
-        tipo_sancion: [{
+        cliente: [{
             required: false,
-            message: 'Seleccione un tipo de sanción',
+            message: 'Seleccione un cliente',
             trigger: 'change'
         }],
-        sancion: [
-            { required: false, message: 'Valor sanción requerido' },
-            { type: 'number', message: 'La sanción debe ser un número' }
-        ],
-        decision: [{
+        divisa: [{
             required: false,
-            message: 'Seleccione una decision',
+            message: 'Seleccione una divisa',
             trigger: 'change'
         }],
-        causa: [{
-            required: true,
-            message: 'Seleccione una causal',
-            trigger: 'change'
-        }],
-        fecha_hechos: [{
+        f_emision: [{
+            // type: 'date',
             required: true,
             message: 'Ingrese una fecha válida',
             trigger: 'change'
         }],
-        caducidad: [{
-            required: false,
+        f_vencimiento: [{
+            // type: 'date',
+            required: true,
             message: 'Ingrese una fecha válida',
             trigger: 'change'
-        }]
+        }],
+        usuario: [{
+            required: false,
+            message: 'Seleccione un usuario',
+            trigger: 'change'
+        }],
+        metodopago: [{
+            required: true,
+            message: 'Seleccione un método de pago',
+            trigger: 'change'
+        }],
+        mediopago: [{
+            required: true,
+            message: 'Seleccione un medio de pago',
+            trigger: 'change'
+        }],
+        f_pago: [{
+            // type: 'date',
+            required: true,
+            message: 'Ingrese una fecha válida',
+            trigger: 'change'
+        }],
     },
     formAgregarEtapa: {
         etapa: '',

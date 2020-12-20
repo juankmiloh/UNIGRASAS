@@ -42,9 +42,9 @@ class UsuariosService:
                 {
                     'idusuario': result[0],
                     'nombre': result[1],
-                    'apellido': str(result[2]),
-                    'rol': result[5],
-                    'password': result[7],
+                    'apellido': result[2],
+                    'rol': result[6],
+                    'password': result[8]
                 }
             )
         return usuarios

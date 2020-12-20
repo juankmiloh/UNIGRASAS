@@ -20,7 +20,7 @@ class ProcesosService:
                 {
                     'idfactura': result[0],
                     'cliente': result[1],
-                    'f_creacion': str(result[2]),
+                    'f_emision': str(result[2]),
                     'total': result[3],
                     'idusuario': result[4],
                     'usuario': result[5]
@@ -40,15 +40,13 @@ class ProcesosService:
     
             proceso.append(
                 {
-                    'idproceso': result[0],
-                    'expediente': result[1],
-                    'caducidad': caducidad,
-                    'empresa': result[3].capitalize(),
-                    'estado': result[4],
-                    'etapa': result[5],
-                    'proxetapa': result[6],
-                    'servicio': result[7],
-                    'usuario': result[8]
+                    'idfactura': result[0],
+                    'cliente': result[1],
+                    'divisa': result[2],
+                    'f_emision': str(result[3]),
+                    'total': result[4],
+                    'idusuario': result[5],
+                    'usuario': result[6]
                 }
             )
         return proceso
@@ -58,28 +56,24 @@ class ProcesosService:
         data = procesos_repository.get_proceso_bd(idProceso)
         for result in data:
             caducidad = None
-            print('-------------------- DATA PROCESO -----------------', result)
+            print('-------------------- DATA FACTURA -----------------', result)
 
             if result[2]:
                 caducidad = str(result[2])
     
             proceso.append(
                 {
-                    'idproceso': result[0],
-                    'expediente': result[1],
-                    'caducidad': caducidad,
-                    'empresa': result[3].capitalize(),
-                    'causa': result[4],
-                    'fecha_hechos': str(result[5]),
-                    'descripcion': result[6],
-                    'estado': result[7],
-                    'etapa': result[8],
-                    'proxetapa': result[9],
-                    'decision': result[10],
-                    'tipo_sancion': result[11],
-                    'sancion': result[12],
-                    'servicio': result[13],
-                    'usuario': result[14]
+                    'idfactura': result[0],
+                    'cliente': result[1],
+                    'metodopago': result[2],
+                    'mediopago': result[3],
+                    'idusuario': result[4],
+                    'divisa': result[5],
+                    'f_emision': str(result[6]),
+                    'f_vencimiento': str(result[7]),
+                    'f_pago': str(result[8]),
+                    'total': result[9],
+                    'descripcion': result[10]
                 }
             )
         return proceso

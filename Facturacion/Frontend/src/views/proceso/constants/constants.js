@@ -1,6 +1,32 @@
 /* jshint esversion: 6 */
 /* eslint-disable */
 export const CONSTANTS = {
+    tableColumnsItems: [{
+            label: 'Código',
+            prop: 'coditem',
+            width: 100
+        },
+        {
+            label: 'Producto',
+            prop: 'item',
+            width: 270
+        },
+        {
+            label: 'Precio',
+            prop: 'precio',
+            // width: 125
+        },
+        {
+            label: 'Cantidad',
+            prop: 'cantidad',
+            width: 110
+        },
+        {
+            label: 'Valor',
+            prop: 'total',
+            // width: 230
+        }
+    ],
     formTercero: {
         idtercero: '',
         persona: '',
@@ -28,40 +54,5 @@ export const CONSTANTS = {
         email: [
             { type: "email", required: true, message: 'Ingrese un correo electrónico válido', trigger: 'blur' },
         ],
-    },
-    tableColumnsTerceros: [{
-            label: 'Tipo',
-            prop: 'persona',
-            width: 125
-        },
-        {
-            label: 'Documento',
-            prop: 'documento',
-            width: 125
-        },
-        {
-            label: 'Nombre',
-            prop: 'nombre',
-            width: 170
-        },
-        {
-            label: 'Dirección',
-            prop: 'direccion',
-            width: 200
-        },
-        {
-            label: 'Email',
-            prop: 'email',
-            width: 230
-        }
-    ],
-    dataPersona: [{
-            idpersona: 1,
-            nombre: 'Persona natural'
-        },
-        {
-            idpersona: 2,
-            nombre: 'Persona jurídica'
-        }
-    ]
+    }
 };

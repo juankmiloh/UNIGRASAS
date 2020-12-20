@@ -246,7 +246,7 @@
           >
             <template slot-scope="scope">
               <div v-if="column.prop === 'usuario'"><el-tag type="primary">{{ scope.row[column.prop] }}</el-tag></div>
-              <div v-else-if="column.prop === 'f_creacion'"><i class="el-icon-time" /> {{ convertDate(scope.row[column.prop]) }}</div>
+              <div v-else-if="column.prop === 'f_emision'"><i class="el-icon-time" /> {{ convertDate(scope.row[column.prop]) }}</div>
               <div v-else>{{ scope.row[column.prop] }}</div>
             </template>
           </el-table-column>
@@ -378,7 +378,7 @@ export default {
         this.downloadLoading = true
         import('@/vendor/Export2Excel').then(excel => {
           const tHeader = ['Numeración', 'Cliente / CUFE', 'Creación (DD-MM-AA)', 'Total', 'Vendedor']
-          const filterVal = ['idfactura', 'cliente', 'f_creacion', 'total', 'usuario']
+          const filterVal = ['idfactura', 'cliente', 'f_emision', 'total', 'usuario']
           const list = this.multipleSelection
           const data = this.formatJson(filterVal, list)
           excel.export_json_to_excel({
@@ -420,16 +420,16 @@ export default {
           procesos = response.filter((proceso) => proceso.idusuario === this.idusuario)
         }
         procesos = procesos.map((proceso) => {
-          if (proceso.f_creacion !== 'None') {
-            const mes = moment(proceso.f_creacion).format('MM')
-            const ano = moment(proceso.f_creacion).format('YYYY')
-            proceso.textF_creacion = ano + '-' + mes
-            proceso.valueF_creacion = mes + '/' + ano
-            proceso.f_creacion = new Date(moment(proceso.f_creacion).format('YYYY/MM/DD HH:mm:ss')) // Se transforma la caducidad a tipo fecha
+          if (proceso.f_emision !== 'None') {
+            const mes = moment(proceso.f_emision).format('MM')
+            const ano = moment(proceso.f_emision).format('YYYY')
+            proceso.textf_emision = ano + '-' + mes
+            proceso.valuef_emision = mes + '/' + ano
+            proceso.f_emision = new Date(moment(proceso.f_emision).format('YYYY/MM/DD HH:mm:ss')) // Se transforma la caducidad a tipo fecha
           } else {
-            proceso.textF_creacion = 'No registra'
-            proceso.valueF_creacion = 'No registra'
-            proceso.f_creacion = 'No registra'
+            proceso.textf_emision = 'No registra'
+            proceso.valuef_emision = 'No registra'
+            proceso.f_emision = 'No registra'
           }
           // console.log(proceso.caducidad)
           return proceso
@@ -437,7 +437,7 @@ export default {
         window.localStorage.setItem('procesos', JSON.stringify(procesos))
         this.datosProcesos = procesos
         this.loading = false
-        console.log('Procesos -> ', this.datosProcesos)
+        // console.log('Procesos -> ', this.datosProcesos)
         this.setFilters()
       })
     },
@@ -445,7 +445,7 @@ export default {
       this.datosProcesos.forEach((item) => {
         this.filterFactura.push({ text: item.idfactura, value: item.idfactura })
         this.filterCliente.push({ text: item.cliente, value: item.cliente })
-        this.filterFcreacion.push({ text: item.textF_creacion, value: item.valueF_creacion })
+        this.filterFcreacion.push({ text: item.textf_emision, value: item.valuef_emision })
         this.filterTotal.push({ text: item.total, value: item.total })
         this.filterVendedor.push({ text: item.usuario, value: item.usuario })
       })
@@ -484,7 +484,7 @@ export default {
     },
     async getClientes() {
       await getListClientes().then((response) => {
-        console.log('CLIENTES -> ', response)
+        // console.log('CLIENTES -> ', response)
         this.datosClientes = response
       })
     },
@@ -502,7 +502,7 @@ export default {
     filterHandler(value, row, column) {
       const property = column['property']
       let valueProperty = row[property]
-      if (property === 'f_creacion') {
+      if (property === 'f_emision') {
         if (valueProperty !== 'No registra') {
           valueProperty = moment(valueProperty).format('DD/MM/YYYY').substring(3, 10)
         }
@@ -569,8 +569,8 @@ export default {
           const modelFactura = this.formAgregar
           this.msgAgregarVisible = false
           this.loading = true
-          modelFactura.f_emision = moment(modelFactura.f_emision).format('DD/MM/YYYY HH:mm:ss')
-          console.log('FORMAGREGAR -> ', modelFactura)
+          modelFactura.f_emision = moment(modelFactura.f_emision).format('YYYY/MM/DD HH:mm:ss')
+          // console.log('FORMAGREGAR -> ', modelFactura)
           createFactura(modelFactura).then((response) => {
             this.$notify({
               title: 'Buen trabajo!',
@@ -600,9 +600,10 @@ export default {
       this.msgAgregarVisible = false
     },
     handleProceso(proceso) {
+      // console.log('handleProceso -> ', proceso);
       // console.log(`/procesos/detalle/${proceso.idproceso}/${JSON.stringify(proceso)}/${JSON.stringify(this.datosUsuarios)}/${JSON.stringify(this.datosServicios)}`)
       this.$router.push({
-        path: `/procesos/detalle/${proceso.idproceso}`
+        path: `/procesos/detalle/${proceso.idfactura}`
       })
       // this.$router.push({
       //   path: `/procesos/detalle/${proceso.idproceso}/${JSON.stringify(
