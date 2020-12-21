@@ -14,6 +14,7 @@ from .mediopago_repository import MediopagoRepository
 from .facturaHasItem_repository import FacturaHasItemRepository
 from .informe_repository import InformeRepository
 from .clientes_repository import ClientesRepository
+from .items_repository import ItemsRepository
 
 
 class RepositoryModule(Module):
@@ -34,6 +35,7 @@ class RepositoryModule(Module):
         facturaHasItem_repository = FacturaHasItemRepository(self.db)
         informe_repository = InformeRepository(self.db)
         clientes_repository = ClientesRepository(self.db)
+        items_repository = ItemsRepository(self.db)
 
         binder.bind(PruebaRepository, to=prueba_repository, scope=singleton)
         binder.bind(EmpresaRepository, to=empresa_repository, scope=singleton)
@@ -48,3 +50,4 @@ class RepositoryModule(Module):
         binder.bind(FacturaHasItemRepository, to=facturaHasItem_repository, scope=singleton)
         binder.bind(InformeRepository, to=informe_repository, scope=singleton)
         binder.bind(ClientesRepository, to=clientes_repository, scope=singleton)
+        binder.bind(ItemsRepository, to=items_repository, scope=singleton)

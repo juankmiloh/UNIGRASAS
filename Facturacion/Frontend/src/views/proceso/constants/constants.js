@@ -4,7 +4,7 @@ export const CONSTANTS = {
     tableColumnsItems: [{
             label: 'Código',
             prop: 'coditem',
-            width: 100
+            width: 95
         },
         {
             label: 'Producto',
@@ -24,7 +24,7 @@ export const CONSTANTS = {
         {
             label: 'Valor',
             prop: 'total',
-            // width: 230
+            width: 110
         }
     ],
     formTercero: {

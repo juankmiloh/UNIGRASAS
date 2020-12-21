@@ -32,7 +32,7 @@
               <div v-else>{{ scope.row[column.prop] }}</div>
             </template>
           </el-table-column>
-          <el-table-column align="center" width="130">
+          <el-table-column align="center" width="125">
             <!-- eslint-disable-next-line -->
             <template slot="header" slot-scope="scope">
               <el-button
@@ -93,7 +93,8 @@ import elDragDialog from '@/directive/el-drag-dialog' // base on element-ui
 import ModalAgregar from '@/components/ModalAgregar'
 import ModalDelete from '@/components/ModalConfirm'
 import { CONSTANTS } from '../constants/constants'
-import { getListFacturaItems } from '@/api/unigrasas/factura-has-item'
+import { getListFacturaItems, createFacturaItems, updateFacturaItems, deleteFacturaItems } from '@/api/unigrasas/factura-has-item'
+import { getListItems } from '@/api/unigrasas/items'
 
 export default {
   directives: { elDragDialog },
@@ -121,12 +122,13 @@ export default {
       deleteDialogVisible: false,
       mensajeModalDelete: '',
       tituloModalItem: '',
-      formItem: {},
+      formItem: CONSTANTS.formItem,
       domItem: CONSTANTS.domItem,
       rulesFormItem: CONSTANTS.rulesFormItem,
-      dataFormItem: CONSTANTS.dataFormItem,
+      dataFormItem: {},
       modalAction: '',
-      formModelItem: CONSTANTS.formItem
+      listaProductos: [],
+      delItem: {}
     }
   },
   watch: {
@@ -137,84 +139,101 @@ export default {
         this.abogadoEditar = val
         console.log('despues !abogadoEditar" -> ', this.editar)
       }
-    },
-    formModelItem: {
-      deep: true,
-      handler(val) {
-        console.log('Modelo items -> ', val)
-        this.formItem = val
-      }
     }
   },
   async created() {
     this.getFacturaItems()
+    this.getItems()
   },
   methods: {
     handleAgregar() {
-      this.formModelItem.idfactura = this.idproceso
+      this.formItem.idfactura = this.idproceso
       this.tituloModalItem = 'Agregar item'
       this.modalAction = 'Agregar'
       this.dialogVisibleItem = true
     },
     handleEdit(data) {
-      console.log('data -> ', data)
-      this.formModelItem = data
+      // console.log('data -> ', data)
+      this.formItem = data
       this.tituloModalItem = 'Editar item'
       this.modalAction = 'Editar'
       this.dialogVisibleItem = true
     },
     handleDelete(data) {
+      this.delItem = data
       this.mensajeModalDelete = `¿Realmente desea quitar <b>${data.item}</b>?`
       this.deleteDialogVisible = true
     },
-    async submitAgregar(confirm) {
-      if (confirm) {
-        // this.loading = true
-        // await deleteCausal(this.causalDel).then(async(response) => {
-        //   this.$notify({
-        //     title: 'Información',
-        //     message: 'Se ha eliminado la causal!',
-        //     position: 'bottom-right',
-        //     type: 'success',
-        //     duration: 2000
-        //   })
-        //   await this.getCausal(this.idproceso)
-        //   this.getCausales()
-        //   this.dialogVisibleItem = false
-        // })
+    async submitAgregar(modal) {
+      if (modal.response) {
+        this.loading = true
+        console.log(modal)
+        if (modal.action === 'Agregar') {
+          console.log('Agregar item!')
+          await createFacturaItems(modal.data).then(async(response) => {
+            this.$notify({
+              title: 'Bien hecho!',
+              message: 'Item agregado con éxito',
+              position: 'bottom-right',
+              type: 'success',
+              duration: 2000
+            })
+          })
+        } else {
+          console.log('Editar item')
+          await updateFacturaItems(modal.data).then(async(response) => {
+            this.$notify({
+              title: 'Bien hecho!',
+              message: 'Item modificado con éxito',
+              position: 'bottom-right',
+              type: 'success',
+              duration: 2000
+            })
+          })
+        }
+        this.formItem = {}
+        this.dialogVisibleItem = false
+        this.getFacturaItems()
+        this.loading = false
       } else {
-        this.formModelItem = {}
+        this.formItem = {}
         this.dialogVisibleItem = false
       }
     },
     async submitDelete(confirm) {
       if (confirm) {
-        // this.loading = true
-        // await deleteCausal(this.causalDel).then(async(response) => {
-        //   this.$notify({
-        //     title: 'Información',
-        //     message: 'Se ha eliminado la causal!',
-        //     position: 'bottom-right',
-        //     type: 'success',
-        //     duration: 2000
-        //   })
-        //   await this.getCausal(this.idproceso)
-        //   this.getCausales()
-        //   this.deleteDialogVisible = false
-        // })
+        this.loading = true
+        await deleteFacturaItems(this.delItem).then(async(response) => {
+          this.$notify({
+            title: 'Información',
+            message: 'Se ha eliminado el item!',
+            position: 'bottom-right',
+            type: 'success',
+            duration: 2000
+          })
+          this.deleteDialogVisible = false
+          this.getFacturaItems()
+          this.loading = false
+        })
       } else {
         this.deleteDialogVisible = false
       }
     },
     async getFacturaItems() {
       await getListFacturaItems(this.idproceso).then((response) => {
-        console.log('LISTA DE ITEMS -> ', response)
+        // console.log('LISTA DE ITEMS -> ', response)
         this.listaItems = response
         let total = 0
         this.listaItems.forEach(element => {
           total = total + element.cantidad * element.precio
         })
         this.$emit('total', total)
+      })
+    },
+    async getItems() {
+      await getListItems().then((response) => {
+        // console.log('LISTA DE PRODCUTOS -> ', response)
+        this.dataFormItem.iditem = response
       })
     },
     getTotal(data) {

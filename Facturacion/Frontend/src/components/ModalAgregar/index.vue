@@ -5,8 +5,9 @@
     :before-close="handleCancel"
     width="40%"
     center
-    custom-class="dialog-class-lista"
+    custom-class="dialog-class"
     :show-close="false"
+    :destroy-on-close="true"
   >
     <sticky class-name="sub-navbar">
       <div style="border: 0px solid red; color: white; text-align: center">
@@ -104,29 +105,15 @@ export default {
   },
   data() {
     return {
-      modelo: {}
-    }
-  },
-  watch: {
-    action: {
-      deep: true,
-      handler(val) {
-        // if (val === 'Agregar') {
-        //   this.resetForm()
-        // }
-        // this.modelo = this.modalform
-      }
     }
   },
   methods: {
-    resetForm() {
-      this.$refs['modalform'].resetFields()
-    },
     async handleForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // Devolvemos el object del form y cerramos el dialogo
           console.log('MODELO -> ', this.modalform)
+          this.$emit('confirmar', { response: true, action: this.action, data: this.modalform })
           // this.msgAgregarVisible = false
           // // console.log(this.formAgregar)
           // this.loading = true
@@ -149,12 +136,9 @@ export default {
     },
     handleCancel() {
       if (this.action === 'Agregar') {
-        this.resetForm()
+        this.$refs['modalform'].resetFields()
       }
-      this.$emit('confirmar', false)
-    },
-    handleConfirm() {
-      this.$emit('confirmar', true)
+      this.$emit('confirmar', { response: false })
     }
   }
 }
@@ -167,11 +151,11 @@ export default {
 </style>
 
 <style lang="scss">
-.dialog-class-lista {
+.dialog-class {
   border-radius: 10px;
 }
 
-.dialog-class-lista .el-dialog__body {
+.dialog-class .el-dialog__body {
   padding-top: 0 !important;
 }
 </style>

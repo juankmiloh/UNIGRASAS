@@ -14,6 +14,7 @@ from .mediopago_service import MediopagoService
 from .facturaHasItem_service import FacturaHasItemService
 from .informe_service import InformeService
 from .clientes_service import ClientesService
+from .items_service import ItemsService
 
 class ServiceModule(Module):
     def configure(self, binder):
@@ -30,6 +31,7 @@ class ServiceModule(Module):
         facturaHasItem_service = FacturaHasItemService()
         informe_service = InformeService()
         clientes_service = ClientesService()
+        items_service = ItemsService()
 
         binder.bind(PruebaService, to=prueba_service, scope=singleton)
         binder.bind(EmpresaService, to=empresa_service, scope=singleton)
@@ -44,3 +46,4 @@ class ServiceModule(Module):
         binder.bind(FacturaHasItemService, to=facturaHasItem_service, scope=singleton)
         binder.bind(InformeService, to=informe_service, scope=singleton)
         binder.bind(ClientesService, to=clientes_service, scope=singleton)
+        binder.bind(ItemsService, to=items_service, scope=singleton)

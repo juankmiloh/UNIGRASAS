@@ -35,7 +35,7 @@ class ClientesService:
                     'email': result[5],
                 }
             )
-        return clientess
+        return clientes
 
     def clientes_insert(self, clientes_repository: ClientesRepository, clientes):
         clientes_repository.clientes_insert_bd(clientes)
