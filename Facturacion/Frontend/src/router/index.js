@@ -225,7 +225,7 @@ export const asyncRoutes = [{
         ]
     },
 
-    // vistas adminsitrador
+    // vistas administrador
     {
         path: '/procesos',
         component: Layout,
@@ -244,7 +244,7 @@ export const asyncRoutes = [{
                 component: () =>
                     import ('@/views/proceso/Detalle'),
                 name: 'DetalleProceso',
-                meta: { title: 'Detalle proceso', icon: 'example', noCache: false, activeMenu: '/procesos/expedientes', roles: ['administrador', 'vendedor', 'consulta'] },
+                meta: { title: 'Detalle factura', icon: 'example', noCache: false, activeMenu: '/procesos/expedientes', roles: ['administrador', 'vendedor', 'consulta'] },
                 hidden: true
             },
         ]

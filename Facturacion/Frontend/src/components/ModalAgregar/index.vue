@@ -1,0 +1,177 @@
+<template>
+  <el-dialog
+    v-el-drag-dialog
+    :visible.sync="modalvisible"
+    :before-close="handleCancel"
+    width="40%"
+    center
+    custom-class="dialog-class-lista"
+    :show-close="false"
+  >
+    <sticky class-name="sub-navbar">
+      <div style="border: 0px solid red; color: white; text-align: center">
+        <h2>{{ modaltitulo }}</h2>
+      </div>
+    </sticky>
+    <div
+      class="createPost-container"
+      style="padding-top: 35px; padding-bottom: 20px; padding-left: 13px"
+    >
+      <el-form
+        ref="modalform"
+        :model="modalform"
+        :rules="rulesform"
+        label-width="120px"
+        class="demo-ruleForm"
+      >
+        <el-form-item v-for="component in domcomponents" :key="component.prop" :label="component.label" :prop="component.prop">
+          <span v-if="component.type === 'number'">
+            <el-input
+              v-model.number="modalform[component.prop]"
+              autocomplete="off"
+              class="control-modal"
+            />
+          </span>
+          <span v-if="component.type === 'select'">
+            <el-select
+              v-model="modalform[component.prop]"
+              filterable
+              :placeholder="component.placeholder"
+              class="control-modal"
+              clearable
+              :disabled="action === 'Editar' ? true : false"
+            >
+              <el-option
+                v-for="item in datamodal[component.prop]"
+                :key="item.id"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </span>
+        </el-form-item>
+        <el-form-item>
+          <el-button
+            @click="handleCancel()"
+          >Cancelar</el-button>
+          <el-button
+            type="success"
+            @click="handleForm('modalform')"
+          >{{ action }}</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+  </el-dialog>
+</template>
+
+<script>
+import elDragDialog from '@/directive/el-drag-dialog' // base on element-ui
+import Sticky from '@/components/Sticky' // 粘性header组件
+
+export default {
+  name: 'ModalConfirm',
+  directives: { elDragDialog },
+  components: { Sticky },
+  props: {
+    modalvisible: {
+      type: Boolean,
+      default: false
+    },
+    modaltitulo: {
+      type: String,
+      default: ''
+    },
+    modalform: {
+      type: Object,
+      default: null
+    },
+    domcomponents: {
+      type: Array,
+      default: null
+    },
+    rulesform: {
+      type: Object,
+      default: null
+    },
+    datamodal: {
+      type: Object,
+      default: null
+    },
+    action: {
+      type: String,
+      default: ''
+    }
+  },
+  data() {
+    return {
+      modelo: {}
+    }
+  },
+  watch: {
+    action: {
+      deep: true,
+      handler(val) {
+        // if (val === 'Agregar') {
+        //   this.resetForm()
+        // }
+        // this.modelo = this.modalform
+      }
+    }
+  },
+  methods: {
+    resetForm() {
+      this.$refs['modalform'].resetFields()
+    },
+    async handleForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // Devolvemos el object del form y cerramos el dialogo
+          console.log('MODELO -> ', this.modalform)
+          // this.msgAgregarVisible = false
+          // // console.log(this.formAgregar)
+          // this.loading = true
+          // // console.log('FORMAGREGAR -> ', this.formAgregar)
+          // createProceso(this.formAgregar).then((response) => {
+          //   this.$notify({
+          //     title: 'Buen trabajo!',
+          //     message: 'Expediente agregado con éxito',
+          //     type: 'success',
+          //     duration: 2000
+          //   })
+          //   this.getProcesos()
+          //   this.$refs['formAgregar'].resetFields()
+          // })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    handleCancel() {
+      if (this.action === 'Agregar') {
+        this.resetForm()
+      }
+      this.$emit('confirmar', false)
+    },
+    handleConfirm() {
+      this.$emit('confirmar', true)
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.control-modal {
+  width: 85%;
+}
+</style>
+
+<style lang="scss">
+.dialog-class-lista {
+  border-radius: 10px;
+}
+
+.dialog-class-lista .el-dialog__body {
+  padding-top: 0 !important;
+}
+</style>

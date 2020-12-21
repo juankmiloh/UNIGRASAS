@@ -123,10 +123,10 @@
             <el-row>
               <el-col
                 :md="24"
-                class="input-etapas"
+                class="input-etapas div-card"
                 style="border: 0px solid blue;"
               >
-                <el-card class="box-card" style="padding: 0; margin: 0">
+                <el-card class="box-card div-card-header" style="padding: 0; margin: 0">
                   <!-- <div slot="header" class="clearfix">
                     <span>Medios de pago</span>
                   </div> -->
@@ -209,8 +209,8 @@
                 <tabla-items v-if="id" :idproceso="id" :editar="abogadoEditar" @total="submitTotal" />
               </el-col>
 
-              <el-col :md="24" style="padding-top: 1%;" class="div-causas">
-                <el-card class="box-card div-causas-header">
+              <el-col :md="24" style="padding-top: 1%;" class="div-card">
+                <el-card class="box-card div-card-header">
                   <el-row>
                     <el-col style="border: 1px solid white;" :span="14">
                       <span />
@@ -276,6 +276,7 @@ import { getListUsuarios } from '@/api/unigrasas/usuarios'
 import { getListMetodopago } from '@/api/unigrasas/metodopago'
 import { getListMediopago } from '@/api/unigrasas/mediopago'
 import { updateProceso } from '@/api/procesosDIEG/procesos'
+import Sticky from '@/components/Sticky' // 粘性header组件
 import { CONSTANTS } from '@/constants/constants'
 import elDragDialog from '@/directive/el-drag-dialog' // base on element-ui
 import moment from 'moment'
@@ -284,7 +285,7 @@ import TablaItems from './TablaItems'
 export default {
   name: 'ProcesoDetalle',
   directives: { elDragDialog },
-  components: { TablaItems },
+  components: { Sticky, TablaItems },
   props: {
     isDetail: {
       type: Boolean,
@@ -314,6 +315,9 @@ export default {
       valueTotal: 0
     }
   },
+  computed: {
+    ...mapGetters(['name', 'roles', 'idusuario'])
+  },
   watch: {
     total: {
       deep: true,
@@ -323,9 +327,6 @@ export default {
         this.valueTotal = new Intl.NumberFormat('de-DE').format(val)
       }
     }
-  },
-  computed: {
-    ...mapGetters(['name', 'roles', 'idusuario'])
   },
   created() {
     if (this.isDetail) {
@@ -562,8 +563,8 @@ export default {
   margin-left: 0% !important;
 }
 
-.div-causas .div-causas-header .el-card__body {
+.div-card .div-card-header .el-card__body {
   border: 0px solid red;
-  padding: 2% 2% 0% 0%;
+  padding: 2% 2% 0% 2%;
 }
 </style>

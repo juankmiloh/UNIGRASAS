@@ -54,5 +54,56 @@ export const CONSTANTS = {
         email: [
             { type: "email", required: true, message: 'Ingrese un correo electrónico válido', trigger: 'blur' },
         ],
+    },
+    formItem: {
+        idfactura: '',
+        iditem: '',
+        cantidad: '',
+        precio: ''
+    },
+    domItem: [{
+            type: 'select',
+            prop: 'iditem',
+            label: 'Producto',
+            placeholder: 'Seleccione un producto'
+        },
+        {
+            type: 'number',
+            prop: 'cantidad',
+            label: 'Cantidad'
+        },
+        {
+            type: 'number',
+            prop: 'precio',
+            label: 'Precio'
+        },
+    ],
+    rulesFormItem: {
+        iditem: [{
+            required: false,
+            message: 'Seleccione un producto',
+            trigger: 'change'
+        }],
+        cantidad: [
+            { required: true, message: 'Ingrese la cantidad' },
+            { type: 'number', message: 'Este campo debe ser numérico' }
+        ],
+        precio: [
+            { required: true, message: 'Ingrese un precio' },
+            { type: 'number', message: 'Este campo debe ser numérico' }
+        ]
+    },
+    dataFormItem: {
+        iditem: [{
+                id: 1,
+                label: 'Producto1',
+                value: 1
+            },
+            {
+                id: 2,
+                label: 'Producto2',
+                value: 2
+            }
+        ]
     }
 };

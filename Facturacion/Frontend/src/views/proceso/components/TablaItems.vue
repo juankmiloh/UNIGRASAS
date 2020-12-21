@@ -2,12 +2,16 @@
   <el-row>
     <el-col :md="24">
       <el-card class="box-card div-causas-header">
+        <!-- <div slot="header" class="clearfix">
+          <span>Card name</span>
+          <el-button style="float: right; padding: 3px 0" type="text">Operation button</el-button>
+        </div> -->
         <el-table
           ref="multipleTable"
           v-loading="loading"
           :data="listaItems"
           style="width: 100%; border: 1px solid #d8ebff;"
-          height="34vh"
+          height="37vh"
           border
           fit
           highlight-current-row
@@ -29,6 +33,16 @@
             </template>
           </el-table-column>
           <el-table-column align="center" width="130">
+            <!-- eslint-disable-next-line -->
+            <template slot="header" slot-scope="scope">
+              <el-button
+                style="border: 1px solid #67c23a"
+                size="mini"
+                icon="el-icon-circle-plus"
+                round
+                @click="handleAgregar()"
+              >Agregar</el-button>
+            </template>
             <template slot-scope="scope">
               <el-button
                 :disabled="!vendedorEditar"
@@ -49,19 +63,43 @@
         </el-table>
       </el-card>
     </el-col>
+
+    <!-- Modal de confirmacion para agregar / editar un item -->
+
+    <modal-agregar
+      :modaltitulo="tituloModalItem"
+      :modalvisible="dialogVisibleItem"
+      :modalform="formItem"
+      :domcomponents="domItem"
+      :rulesform="rulesFormItem"
+      :datamodal="dataFormItem"
+      :action="modalAction"
+      @confirmar="submitAgregar"
+    />
+
+    <!-- Modal de confirmacion para borrar un item -->
+
+    <modal-delete
+      titulo="Advertencia"
+      :mensaje="mensajeModalDelete"
+      :modalvisible="deleteDialogVisible"
+      @confirmar="submitDelete"
+    />
   </el-row>
 </template>
 
 <script>
 import elDragDialog from '@/directive/el-drag-dialog' // base on element-ui
-// import ModalDelete from '@/components/ModalConfirm'
+import ModalAgregar from '@/components/ModalAgregar'
+import ModalDelete from '@/components/ModalConfirm'
 import { CONSTANTS } from '../constants/constants'
 import { getListFacturaItems } from '@/api/unigrasas/factura-has-item'
 
 export default {
   directives: { elDragDialog },
   components: {
-    // ModalDelete
+    ModalAgregar,
+    ModalDelete
   },
   props: {
     idproceso: {
@@ -78,7 +116,17 @@ export default {
       loading: false,
       tableColumnsItems: CONSTANTS.tableColumnsItems,
       listaItems: [],
-      vendedorEditar: this.editar
+      vendedorEditar: this.editar,
+      dialogVisibleItem: false,
+      deleteDialogVisible: false,
+      mensajeModalDelete: '',
+      tituloModalItem: '',
+      formItem: {},
+      domItem: CONSTANTS.domItem,
+      rulesFormItem: CONSTANTS.rulesFormItem,
+      dataFormItem: CONSTANTS.dataFormItem,
+      modalAction: '',
+      formModelItem: CONSTANTS.formItem
     }
   },
   watch: {
@@ -89,12 +137,75 @@ export default {
         this.abogadoEditar = val
         console.log('despues !abogadoEditar" -> ', this.editar)
       }
+    },
+    formModelItem: {
+      deep: true,
+      handler(val) {
+        console.log('Modelo items -> ', val)
+        this.formItem = val
+      }
     }
   },
   async created() {
     this.getFacturaItems()
   },
   methods: {
+    handleAgregar() {
+      this.formModelItem.idfactura = this.idproceso
+      this.tituloModalItem = 'Agregar item'
+      this.modalAction = 'Agregar'
+      this.dialogVisibleItem = true
+    },
+    handleEdit(data) {
+      console.log('data -> ', data)
+      this.formModelItem = data
+      this.tituloModalItem = 'Editar item'
+      this.modalAction = 'Editar'
+      this.dialogVisibleItem = true
+    },
+    handleDelete(data) {
+      this.mensajeModalDelete = `¿Realmente desea quitar <b>${data.item}</b>?`
+      this.deleteDialogVisible = true
+    },
+    async submitAgregar(confirm) {
+      if (confirm) {
+        // this.loading = true
+        // await deleteCausal(this.causalDel).then(async(response) => {
+        //   this.$notify({
+        //     title: 'Información',
+        //     message: 'Se ha eliminado la causal!',
+        //     position: 'bottom-right',
+        //     type: 'success',
+        //     duration: 2000
+        //   })
+        //   await this.getCausal(this.idproceso)
+        //   this.getCausales()
+        //   this.dialogVisibleItem = false
+        // })
+      } else {
+        this.formModelItem = {}
+        this.dialogVisibleItem = false
+      }
+    },
+    async submitDelete(confirm) {
+      if (confirm) {
+        // this.loading = true
+        // await deleteCausal(this.causalDel).then(async(response) => {
+        //   this.$notify({
+        //     title: 'Información',
+        //     message: 'Se ha eliminado la causal!',
+        //     position: 'bottom-right',
+        //     type: 'success',
+        //     duration: 2000
+        //   })
+        //   await this.getCausal(this.idproceso)
+        //   this.getCausales()
+        //   this.deleteDialogVisible = false
+        // })
+      } else {
+        this.deleteDialogVisible = false
+      }
+    },
     async getFacturaItems() {
       await getListFacturaItems(this.idproceso).then((response) => {
         console.log('LISTA DE ITEMS -> ', response)
