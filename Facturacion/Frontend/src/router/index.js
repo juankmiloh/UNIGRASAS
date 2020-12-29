@@ -227,14 +227,36 @@ export const asyncRoutes = [{
 
     // vistas administrador
     {
+        path: '/clientes',
+        component: Layout,
+        children: [{
+            path: 'index',
+            component: () =>
+                import ('@/views/clientes/index'),
+            name: 'Clientes',
+            meta: { title: 'Clientes', icon: 'peoples', noCache: false, roles: ['administrador'] }
+        }, ]
+    },
+    {
+        path: '/items',
+        component: Layout,
+        children: [{
+            path: 'index',
+            component: () =>
+                import ('@/views/items/index'),
+            name: 'Items',
+            meta: { title: 'Items', icon: 'shopping', noCache: false, roles: ['administrador'] }
+        }, ]
+    },
+    {
         path: '/procesos',
         component: Layout,
         children: [{
-                path: 'expedientes',
+                path: 'facturas',
                 component: () =>
                     import ('@/views/proceso/Lista'),
                 name: 'Procesos',
-                meta: { title: 'Facturas', icon: 'example', noCache: false, roles: ['administrador', 'vendedor'] }
+                meta: { title: 'Facturas', icon: 'form', noCache: false, roles: ['administrador', 'vendedor'] }
             },
             {
                 path: 'detalle/:id',
@@ -244,7 +266,7 @@ export const asyncRoutes = [{
                 component: () =>
                     import ('@/views/proceso/Detalle'),
                 name: 'DetalleProceso',
-                meta: { title: 'Detalle factura', icon: 'example', noCache: false, activeMenu: '/procesos/expedientes', roles: ['administrador', 'vendedor', 'consulta'] },
+                meta: { title: 'Detalle factura', icon: 'example', noCache: false, activeMenu: '/procesos/facturas', roles: ['administrador', 'vendedor', 'consulta'] },
                 hidden: true
             },
         ]

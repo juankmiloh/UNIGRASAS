@@ -8,6 +8,8 @@
     custom-class="dialog-class"
     :show-close="false"
     :destroy-on-close="true"
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
   >
     <sticky class-name="sub-navbar">
       <div style="border: 0px solid red; color: white; text-align: center">
@@ -20,34 +22,64 @@
     >
       <el-form
         ref="modalform"
-        :model="modalform"
+        :model="model"
         :rules="rulesform"
         label-width="120px"
         class="demo-ruleForm"
       >
         <el-form-item v-for="component in domcomponents" :key="component.prop" :label="component.label" :prop="component.prop">
+          <span v-if="component.type === 'radiogroup'">
+            <el-radio-group v-model="model[component.prop]">
+              <el-radio-button
+                v-for="item in datamodal[component.prop]"
+                :key="item.id"
+                :label="item.label"
+              />
+            </el-radio-group>
+          </span>
+          <span v-if="component.type === 'text'">
+            <el-input
+              v-model="model[component.prop]"
+              autocomplete="off"
+              :placeholder="component.placeholder"
+              class="control-modal"
+            />
+          </span>
           <span v-if="component.type === 'number'">
             <el-input
-              v-model.number="modalform[component.prop]"
+              v-model.number="model[component.prop]"
               autocomplete="off"
               class="control-modal"
             />
           </span>
+          <span v-if="component.type === 'textarea'">
+            <el-input
+              v-model="model[component.prop]"
+              type="textarea"
+              class="control-modal"
+              rows="4"
+            />
+          </span>
           <span v-if="component.type === 'select'">
             <el-select
-              v-model="modalform[component.prop]"
+              v-model="model[component.prop]"
               filterable
               :placeholder="component.placeholder"
               class="control-modal"
               clearable
               :disabled="action === 'Editar' ? true : false"
             >
-              <el-option
-                v-for="item in datamodal[component.prop]"
-                :key="item.id"
-                :label="item.label"
-                :value="item.value"
-              />
+              <span v-if="action === 'Editar'">
+                <el-option :label="model.item" :value="model.iditem" />
+              </span>
+              <span v-else> <!-- Opciones para cuando es agregar -->
+                <el-option
+                  v-for="item in datamodal[component.prop]"
+                  :key="item.id"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </span>
             </el-select>
           </span>
         </el-form-item>
@@ -105,7 +137,19 @@ export default {
   },
   data() {
     return {
+      model: {}
     }
+  },
+  watch: {
+    modalform: {
+      deep: true,
+      handler(val) {
+        this.model = val
+      }
+    }
+  },
+  created() {
+    this.model = {}
   },
   methods: {
     async handleForm(formName) {
@@ -114,20 +158,6 @@ export default {
           // Devolvemos el object del form y cerramos el dialogo
           console.log('MODELO -> ', this.modalform)
           this.$emit('confirmar', { response: true, action: this.action, data: this.modalform })
-          // this.msgAgregarVisible = false
-          // // console.log(this.formAgregar)
-          // this.loading = true
-          // // console.log('FORMAGREGAR -> ', this.formAgregar)
-          // createProceso(this.formAgregar).then((response) => {
-          //   this.$notify({
-          //     title: 'Buen trabajo!',
-          //     message: 'Expediente agregado con éxito',
-          //     type: 'success',
-          //     duration: 2000
-          //   })
-          //   this.getProcesos()
-          //   this.$refs['formAgregar'].resetFields()
-          // })
         } else {
           console.log('error submit!!')
           return false

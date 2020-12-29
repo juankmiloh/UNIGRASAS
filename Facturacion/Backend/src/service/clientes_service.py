@@ -16,35 +16,24 @@ class ClientesService:
             clientes.append(
                 {
                     'idcliente': result[0],
-                    'nombre': result[3]
-                }
-            )
-        return clientes
-
-    def get_clientes_proceso(self, clientes_repository: ClientesRepository, idproceso):
-        clientes = []
-        data = clientes_repository.get_clientes_proceso_bd(idproceso)
-        for result in data:                
-            clientes.append(
-                {
-                    'idtercero': result[0],
-                    'persona': result[1],
-                    'documento': result[2],
+                    'nit': result[2],
                     'nombre': result[3],
-                    'direccion': result[4],
-                    'email': result[5],
+                    'email': result[4],
+                    'telefono': result[5],
+                    'registro': str(result[6]),
+                    'tipopersona': result[7]
                 }
             )
         return clientes
 
     def clientes_insert(self, clientes_repository: ClientesRepository, clientes):
         clientes_repository.clientes_insert_bd(clientes)
-        return add_wrapper(['clientes registrada con éxito!'])
+        return add_wrapper(['cliente registrado con éxito!'])
 
     def clientes_update(self, clientes_repository: ClientesRepository, dataclientes):
         clientes_repository.clientes_update_bd(dataclientes)
-        return add_wrapper(['clientes actualizada con éxito!'])
+        return add_wrapper(['cliente actualizado con éxito!'])
 
     def clientes_delete(self, clientes_repository: ClientesRepository, idtercero):
         clientes_repository.clientes_delete_bd(idtercero)
-        return add_wrapper(['clientes borrada con éxito!'])
+        return add_wrapper(['cliente borrado con éxito!'])

@@ -244,18 +244,13 @@
                     style="border: 0px solid #67c23a; width: 9em"
                     :type="editarProceso ? 'danger' : 'primary'"
                     :icon="editarProceso ? 'el-icon-error' : 'el-icon-edit'"
-                    @click="
-                      editarProceso = !editarProceso;
-                      editarForm();
-                    "
+                    @click="editarProceso = !editarProceso; editarForm();"
                   >{{ textEditarProceso }}</el-button>
                   <el-button
                     :disabled="!abogadoEditar"
                     style="width: 9em"
                     :type="editarProceso ? 'primary' : 'success'"
-                    :icon="
-                      editarProceso ? 'el-icon-circle-check' : 'el-icon-check'
-                    "
+                    :icon="editarProceso ? 'el-icon-circle-check' : 'el-icon-check'"
                     @click="submitForm('formProceso')"
                   >{{ textActualizar }}</el-button>
                 </el-card>
@@ -450,7 +445,6 @@ export default {
         this.textEditarProceso = 'Editar'
         this.textActualizar = 'Actualizar'
         this.formProceso = JSON.parse(window.localStorage.getItem('form_save')) // Se carga la copia del proceso guardado en localstorage
-        this.selectServicio(this.formProceso.servicio) // Se carga de nuevo la lista de las empresas del servicio guardado en localstorage
         window.localStorage.removeItem('form_save')
       }
     },

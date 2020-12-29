@@ -32,39 +32,36 @@ export const CONSTANTS = {
             filter: 'filterVendedor'
         }
     ],
-    tableColumnsAbogado: [
-        // {
-        //     label: '#',
-        //     prop: 'idproceso',
-        //     width: 70
-        // },
-        {
-            label: 'Expediente',
-            prop: 'expediente',
-            filter: 'filterExpediente'
+    tableColumnsAbogado: [{
+            label: 'Numeración',
+            prop: 'idfactura',
+            width: '',
+            filter: 'filterFactura'
         },
         {
-            label: 'Servicio',
-            prop: 'servicio',
-            filter: 'filterServicio'
+            label: 'Cliente / CUFE',
+            prop: 'cliente',
+            width: 350,
+            filter: 'filterCliente'
         },
         {
-            label: 'Empresa',
-            prop: 'empresa',
-            width: 270,
-            filter: 'filterEmpresa'
+            label: 'Creacion',
+            prop: 'f_emision',
+            width: '',
+            filter: 'filterFcreacion'
         },
         {
-            label: 'Caducidad',
-            prop: 'caducidad',
-            filter: 'filterCaducidad'
+            label: 'Total',
+            prop: 'total',
+            width: '',
+            filter: 'filterTotal'
         },
         {
-            label: 'Estado',
-            prop: 'estado',
-            width: 210,
-            filter: 'filterEstado'
-        },
+            label: 'Vendedor',
+            prop: 'usuario',
+            width: '',
+            filter: 'filterVendedor'
+        }
     ],
     tableColumnsEtapas: [{
             label: '#',

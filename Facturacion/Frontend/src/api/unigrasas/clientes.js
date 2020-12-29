@@ -9,14 +9,6 @@ export function getListClientes() {
     });
 }
 
-export function getCliente(id) {
-    return request({
-        url: '/cliente/detalle',
-        method: 'get',
-        params: { 'idcliente': id }
-    });
-}
-
 export function createCliente(data) {
     return request({
         url: '/clientes',
@@ -33,10 +25,10 @@ export function updateCliente(data) {
     });
 }
 
-export function deleteCliente(id) {
+export function deleteCliente(data) {
     return request({
         url: '/clientes',
         method: 'delete',
-        params: { 'idcliente': id }
+        data
     });
 }

@@ -9,50 +9,26 @@ export function getListItems() {
     });
 }
 
-export function getFactura(id) {
+export function createItem(data) {
     return request({
-        url: '/proceso/detalle',
-        method: 'get',
-        params: { 'idProceso': id }
-    });
-}
-
-export function getFacturaInicial(id) {
-    return request({
-        url: '/proceso/detalle/inicial',
-        method: 'get',
-        params: { 'idProceso': id }
-    });
-}
-
-export function createFactura(data) {
-    return request({
-        url: '/procesos',
+        url: '/items',
         method: 'post',
         data
     });
 }
 
-export function updateFacturaUsuario(data) {
+export function updateItem(data) {
     return request({
-        url: '/procesos/usuarioupdate',
+        url: '/items',
         method: 'put',
-        data: data
+        data
     });
 }
 
-export function updateProceso(data) {
+export function deleteItem(data) {
     return request({
-        url: '/procesos/update',
-        method: 'put',
-        data: data
-    });
-}
-
-export function deleteFactura(id) {
-    return request({
-        url: '/procesos',
+        url: '/items',
         method: 'delete',
-        params: { 'idProceso': id }
+        data
     });
 }

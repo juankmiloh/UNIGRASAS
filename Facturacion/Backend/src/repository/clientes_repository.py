@@ -9,52 +9,58 @@ class ClientesRepository:
 
     def get_clientes_bd(self):
         sql = '''
-            SELECT * FROM CLIENTE;
+            SELECT C.*, TP.NOMBRE FROM CLIENTE C, TIPO_PERSONA TP WHERE C.IDTIPO_PERSONA = TP.IDTIPO_PERSONA ORDER BY C.NOMBRE ASC;
         '''
         return self.db.engine.execute(text(sql)).fetchall()
-    
-    def get_clientes_proceso_bd(self, idProceso):
-        sql = '''
-            SELECT T.IDTERCEROS, TP.NOMBRE AS PERSONA, T.DOCUMENTO, T.NOMBRE, T.DIRECCION, T.EMAIL FROM TERCEROS T, TIPOPERSONA TP
-            WHERE T.IDTIPOPERSONA = TP.IDTIPOPERSONA AND T.IDPROCESO = :IDPROCESO_ARG ORDER BY T.IDTERCEROS DESC;
-        '''
-        return self.db.engine.execute(text(sql), IDPROCESO_ARG=idProceso).fetchall()
 
-    def clientes_insert_bd(self, clientes):
+    def clientes_insert_bd(self, cliente):
         print('-------------------------------------')
-        print('OBJ TERCERO -> ', clientes)
+        print('OBJ CLIENTE -> ', cliente)
         print('-------------------------------------')
-        sql = '''
-            INSERT INTO TERCEROS(IDPROCESO, IDTIPOPERSONA, DOCUMENTO, NOMBRE, DIRECCION, EMAIL)
-            VALUES (:IDPROCESO_ARG, :IDTIPOPERSONA_ARG, :DOCUMENTO_ARG, :NOMBRE_ARG, :DIRECCION_ARG, :EMAIL_ARG);
-        '''
-        self.db.engine.execute(text(sql), IDPROCESO_ARG=clientes["idproceso"], IDTIPOPERSONA_ARG=clientes["persona"], DOCUMENTO_ARG=clientes["documento"], NOMBRE_ARG=clientes["nombre"], DIRECCION_ARG=clientes["direccion"], EMAIL_ARG=clientes["email"])
 
-    def clientes_update_bd(self, clientes):
+        tipopersona = cliente["tipopersona"]
+        if tipopersona == 'Persona jurídica':
+            tipopersona = 2
+        else:
+            tipopersona = 1
+
+        sql = '''
+            INSERT INTO CLIENTE(IDTIPO_PERSONA, NIT, NOMBRE, EMAIL, TELEFONO, F_REGISTRO)
+            VALUES (:IDTIPOPERSONA_ARG, :NIT_ARG, :NOMBRE_ARG, :EMAIL_ARG, :TELEFONO_ARG, CURRENT_TIMESTAMP);
+        '''
+        self.db.engine.execute(text(sql), IDTIPOPERSONA_ARG=tipopersona, NIT_ARG=cliente["nit"], NOMBRE_ARG=cliente["nombre"], EMAIL_ARG=cliente["email"], TELEFONO_ARG=cliente["telefono"])
+
+    def clientes_update_bd(self, cliente):
         print('-------------------------------------')
-        print('* TERCERO A ACTUALIZAR -> ', clientes)
+        print('* CLIENTE A ACTUALIZAR -> ', cliente)
         print('-------------------------------------')
+
+        tipopersona = cliente["tipopersona"]
+        if tipopersona == 'Persona jurídica':
+            tipopersona = 2
+        else:
+            tipopersona = 1
 
         sql = '''
             UPDATE 
-                TERCEROS
+                CLIENTE
 	        SET 
-                IDTIPOPERSONA = :IDTIPOPERSONA_ARG,
-                DOCUMENTO = :DOCUMENTO_ARG,
+                IDTIPO_PERSONA = :IDTIPOPERSONA_ARG,
+                NIT = :NIT_ARG,
                 NOMBRE = :NOMBRE_ARG,
-                DIRECCION = :DIRECCION_ARG,
-                EMAIL = :EMAIL_ARG
-	        WHERE IDTERCEROS = :IDTERCERO_ARG;
+                EMAIL = :EMAIL_ARG,
+                TELEFONO = :TELEFONO_ARG
+	        WHERE IDCLIENTE = :IDCLIENTE_ARG;
         '''
-        self.db.engine.execute(text(sql), IDTERCERO_ARG=clientes["idtercero"], IDTIPOPERSONA_ARG=clientes["persona"], DOCUMENTO_ARG=clientes["documento"], NOMBRE_ARG=clientes["nombre"], DIRECCION_ARG=clientes["direccion"], EMAIL_ARG=clientes["email"])
+        self.db.engine.execute(text(sql), IDCLIENTE_ARG=cliente["idcliente"], IDTIPOPERSONA_ARG=tipopersona, NIT_ARG=cliente["nit"], NOMBRE_ARG=cliente["nombre"], EMAIL_ARG=cliente["email"], TELEFONO_ARG=cliente["telefono"])
             
                         
-    def clientes_delete_bd(self, idtercero):
+    def clientes_delete_bd(self, cliente):
         print('-------------------------------------')
-        print('* TERCERO A ELIMINAR -> ', idtercero)
+        print('* CLIENTE A ELIMINAR -> ', cliente)
         print('-------------------------------------')
         sql = '''
-            DELETE FROM TERCEROS
-            WHERE IDTERCEROS = :IDTERCERO_ARG;
+            DELETE FROM CLIENTE
+            WHERE IDCLIENTE = :IDCLIENTE_ARG;
         '''
-        self.db.engine.execute(text(sql), IDTERCERO_ARG=idtercero)
+        self.db.engine.execute(text(sql), IDCLIENTE_ARG=cliente["idcliente"])

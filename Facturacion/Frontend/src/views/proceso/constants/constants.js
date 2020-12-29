@@ -27,34 +27,6 @@ export const CONSTANTS = {
             width: 110
         }
     ],
-    formTercero: {
-        idtercero: '',
-        persona: '',
-        documento: '',
-        nombre: '',
-        direccion: '',
-        email: ''
-    },
-    rulesFormTercero: {
-        persona: [{
-            required: true,
-            message: 'Seleccione un tipo de persona',
-            trigger: 'change'
-        }],
-        documento: [
-            { required: true, message: 'Ingrese un documento' },
-            { type: 'number', message: 'Este campo debe ser numérico' }
-        ],
-        nombre: [
-            { required: true, message: 'Ingrese un nombre', trigger: 'blur' },
-        ],
-        direccion: [
-            { required: true, message: 'Ingrese una dirección', trigger: 'blur' },
-        ],
-        email: [
-            { type: "email", required: true, message: 'Ingrese un correo electrónico válido', trigger: 'blur' },
-        ],
-    },
     formItem: {
         idfactura: '',
         iditem: '',
@@ -80,7 +52,7 @@ export const CONSTANTS = {
     ],
     rulesFormItem: {
         iditem: [{
-            required: false,
+            required: true,
             message: 'Seleccione un producto',
             trigger: 'change'
         }],

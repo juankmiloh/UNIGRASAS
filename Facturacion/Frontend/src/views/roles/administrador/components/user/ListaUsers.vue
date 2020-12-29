@@ -144,7 +144,7 @@ export default {
           this.deleteDialogVisible = false
           this.$notify({
             title: 'Advertencia',
-            message: 'El usuario tiene procesos asignados',
+            message: 'El usuario tiene facturas asignadas',
             type: 'warning',
             duration: 2000
           })

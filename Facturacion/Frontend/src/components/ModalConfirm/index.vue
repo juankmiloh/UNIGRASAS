@@ -8,6 +8,7 @@
     center
     custom-class="dialog-class-lista"
   >
+    <br>
     <center>
       <span v-html="mensaje" />
     </center>

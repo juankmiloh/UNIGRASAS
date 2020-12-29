@@ -12,7 +12,7 @@
 
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
 
-        <lang-select class="right-menu-item hover-effect" />
+        <!-- <lang-select class="right-menu-item hover-effect" /> -->
 
       </template>
 
@@ -41,7 +41,7 @@ import Hamburger from '@/components/Hamburger'
 import ErrorLog from '@/components/ErrorLog'
 import Screenfull from '@/components/Screenfull'
 import Search from '@/components/HeaderSearch'
-import LangSelect from '@/components/LangSelect'
+// import LangSelect from '@/components/LangSelect'
 
 export default {
   components: {
@@ -49,8 +49,8 @@ export default {
     Hamburger,
     ErrorLog,
     Screenfull,
-    Search,
-    LangSelect
+    Search
+    // LangSelect
   },
   computed: {
     ...mapGetters([
