@@ -50,6 +50,7 @@
               v-model.number="model[component.prop]"
               autocomplete="off"
               class="control-modal"
+              :placeholder="component.placeholder"
             />
           </span>
           <span v-if="component.type === 'textarea'">
@@ -58,6 +59,7 @@
               type="textarea"
               class="control-modal"
               rows="4"
+              :placeholder="component.placeholder"
             />
           </span>
           <span v-if="component.type === 'select'">
@@ -156,7 +158,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // Devolvemos el object del form y cerramos el dialogo
-          console.log('MODELO -> ', this.modalform)
+          // console.log('MODELO -> ', this.modalform)
           this.$emit('confirmar', { response: true, action: this.action, data: this.modalform })
         } else {
           console.log('error submit!!')

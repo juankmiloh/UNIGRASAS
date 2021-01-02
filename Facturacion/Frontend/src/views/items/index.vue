@@ -23,7 +23,7 @@
         <el-table
           ref="multipleTable"
           v-loading="loading"
-          :data="listaItems.filter((data) =>!busquedaItem ||data.nombre.toLowerCase().includes(busquedaItem.toLowerCase()))"
+          :data="listaItems.filter((data) =>!busquedaItem ||data.label.toLowerCase().includes(busquedaItem.toLowerCase()))"
           style="width: 100%; border: 1px solid #d8ebff"
           height="70vh"
           border
@@ -147,7 +147,7 @@ export default {
   },
   async mounted() {
     this.formItem = {}
-    console.log('this.formItem -> ', this.formItem)
+    // console.log('this.formItem -> ', this.formItem)
   },
   methods: {
     handleAgregar() {
@@ -164,7 +164,7 @@ export default {
     },
     handleDelete(data) {
       this.delItem = data
-      this.mensajeModalDelete = `¿Realmente desea eliminar a <b>${data.label}</b>?`
+      this.mensajeModalDelete = `¿Realmente desea eliminar <b>${data.label}</b>?`
       this.deleteDialogVisible = true
     },
     async submitAgregar(modal) {
@@ -206,6 +206,7 @@ export default {
         this.loading = false
       } else {
         this.formItem = {}
+        this.getItems()
         this.dialogVisibleItem = false
       }
     },
@@ -241,7 +242,7 @@ export default {
     },
     async getItems() {
       await getListItems(this.idproceso).then((response) => {
-        console.log('LISTA DE ITEMS -> ', response)
+        // console.log('LISTA DE ITEMS -> ', response)
         this.listaItems = response
         this.loading = false
       })

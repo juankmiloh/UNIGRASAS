@@ -43,7 +43,8 @@ export const CONSTANTS = {
         {
             type: 'number',
             prop: 'nit',
-            label: 'Nit'
+            label: 'Nit',
+            placeholder: 'Nit del cliente'
         },
         {
             type: 'text',
@@ -54,12 +55,14 @@ export const CONSTANTS = {
         {
             type: 'text',
             prop: 'email',
-            label: 'Email'
+            label: 'Email',
+            placeholder: 'Correo electrónico'
         },
         {
             type: 'number',
             prop: 'telefono',
-            label: 'Teléfono'
+            label: 'Teléfono',
+            placeholder: 'Teléfono del cliente'
         },
     ],
     rulesFormItem: {

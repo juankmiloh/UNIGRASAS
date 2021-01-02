@@ -247,7 +247,7 @@
             <template slot-scope="scope">
               <div v-if="column.prop === 'usuario'"><el-tag type="primary">{{ scope.row[column.prop] }}</el-tag></div>
               <div v-else-if="column.prop === 'f_emision'"><i class="el-icon-time" /> {{ convertDate(scope.row[column.prop]) }}</div>
-              <div v-else-if="column.prop === 'total'">{{ new Intl.NumberFormat("de-DE").format(scope.row[column.prop]) }}</div>
+              <div v-else-if="column.prop === 'total'">$ {{ new Intl.NumberFormat("de-DE").format(scope.row[column.prop]) }}</div>
               <div v-else>{{ scope.row[column.prop] }}</div>
             </template>
           </el-table-column>

@@ -38,17 +38,20 @@ export const CONSTANTS = {
         {
             type: 'number',
             prop: 'id',
-            label: 'Identificador'
+            label: 'Identificador',
+            placeholder: 'Código item'
         },
         {
             type: 'number',
             prop: 'precio',
-            label: 'Precio'
+            label: 'Precio',
+            placeholder: 'Precio del item'
         },
         {
             type: 'textarea',
             prop: 'descripcion',
-            label: 'Descripción'
+            label: 'Descripción',
+            placeholder: 'Ingrese una descripción'
         },
     ],
     rulesFormItem: {

@@ -4,7 +4,7 @@ export const CONSTANTS = {
     tableColumnsItems: [{
             label: 'Código',
             prop: 'coditem',
-            width: 95
+            width: 94
         },
         {
             label: 'Producto',
@@ -14,7 +14,7 @@ export const CONSTANTS = {
         {
             label: 'Precio',
             prop: 'precio',
-            // width: 125
+            width: 98
         },
         {
             label: 'Cantidad',
@@ -42,12 +42,14 @@ export const CONSTANTS = {
         {
             type: 'number',
             prop: 'cantidad',
-            label: 'Cantidad'
+            label: 'Cantidad',
+            placeholder: 'Ingrese cantidad de producto'
         },
         {
             type: 'number',
             prop: 'precio',
-            label: 'Precio'
+            label: 'Precio',
+            placeholder: 'Ingrese el precio'
         },
     ],
     rulesFormItem: {

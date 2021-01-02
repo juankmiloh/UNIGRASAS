@@ -144,7 +144,7 @@ export default {
   },
   async mounted() {
     this.formItem = {}
-    console.log('this.formItem -> ', this.formItem)
+    // console.log('this.formItem -> ', this.formItem)
   },
   methods: {
     handleAgregar() {
@@ -197,6 +197,7 @@ export default {
         this.loading = false
       } else {
         this.formItem = {}
+        this.getClientes()
         this.dialogVisibleItem = false
       }
     },
@@ -232,7 +233,7 @@ export default {
     },
     async getClientes() {
       await getListClientes(this.idproceso).then((response) => {
-        console.log('LISTA DE CLIENTES -> ', response)
+        // console.log('LISTA DE CLIENTES -> ', response)
         this.listaClientes = response
         this.loading = false
       })
