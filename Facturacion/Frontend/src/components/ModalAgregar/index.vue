@@ -43,6 +43,7 @@
               autocomplete="off"
               :placeholder="component.placeholder"
               class="control-modal"
+              @keyup.enter.native="handleForm('modalform')"
             />
           </span>
           <span v-if="component.type === 'number'">
@@ -51,6 +52,7 @@
               autocomplete="off"
               class="control-modal"
               :placeholder="component.placeholder"
+              @keyup.enter.native="handleForm('modalform')"
             />
           </span>
           <span v-if="component.type === 'textarea'">
@@ -86,9 +88,7 @@
           </span>
         </el-form-item>
         <el-form-item>
-          <el-button
-            @click="handleCancel()"
-          >Cancelar</el-button>
+          <el-button @click="handleCancel()">Cancelar</el-button>
           <el-button
             type="success"
             @click="handleForm('modalform')"

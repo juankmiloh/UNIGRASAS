@@ -78,6 +78,19 @@ class ProcesosRepository:
 
         return resultsql
 
+    def proceso_total_update_bd(self, dataProceso):
+        print('-------------------------------------')
+        print('* FACTURA A ACTUALIZAR -> ', dataProceso)
+        print('-------------------------------------')
+        sql = '''
+            UPDATE FACTURA
+            SET TOTAL = :TOTAL_ARG
+            WHERE IDFACTURA = :IDFACTURA_ARG;
+        '''
+        resultsql = self.db.engine.execute(text(sql), IDFACTURA_ARG=dataProceso["idfactura"], TOTAL_ARG=dataProceso["total"])
+
+        return resultsql
+
     def proceso_update_bd(self, dataProceso):
         print('-------------------------------------')
         print('* PROCESO A ACTUALIZAR -> ', dataProceso)

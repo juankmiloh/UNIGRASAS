@@ -157,6 +157,7 @@
               clearable
               class="control-modal"
               readonly
+              @keyup.enter.native="asignarUsuario"
             />
           </el-form-item>
           <el-form-item label="Usuario">
@@ -178,10 +179,7 @@
             <el-button @click="msgUsuarioVisible = false">Cancelar</el-button>
             <el-button
               type="success"
-              @click="
-                msgUsuarioVisible = false;
-                asignarUsuario();
-              "
+              @click="asignarUsuario()"
             >Asignar</el-button>
           </el-form-item>
         </el-form>
@@ -301,8 +299,6 @@ import {
 } from '@/api/unigrasas/facturas'
 import { getListUsuarios } from '@/api/unigrasas/usuarios'
 import { getListClientes } from '@/api/unigrasas/clientes'
-import { getListEmpresas } from '@/api/procesosDIEG/empresas'
-import { getAllEmpresas } from '@/api/procesosDIEG/empresas'
 import elDragDialog from '@/directive/el-drag-dialog' // base on element-ui
 import Sticky from '@/components/Sticky' // 粘性header组件
 import moment from 'moment'
@@ -410,7 +406,6 @@ export default {
       this.getProcesos()
       this.getUsuarios()
       this.getClientes()
-      // this.getEmpresas()
     },
     async getProcesos() {
       await getListFacturas().then((response) => {
@@ -489,16 +484,6 @@ export default {
         this.datosClientes = response
       })
     },
-    async getEmpresas() {
-      await getAllEmpresas().then((response) => {
-        this.allDataEmpresas = response.items
-        window.localStorage.setItem(
-          'empresas',
-          JSON.stringify(this.allDataEmpresas)
-        )
-        // console.log(this.allDataEmpresas.items)
-      })
-    },
     /* Metodo para realizar la busqueda de los filtros ubicado en las columnas */
     filterHandler(value, row, column) {
       const property = column['property']
@@ -546,19 +531,8 @@ export default {
           duration: 2000
         })
         this.getProcesos()
+        this.msgUsuarioVisible = false
       })
-    },
-    async selectServicio(idservicio) {
-      if (this.formAgregar.empresa) {
-        this.disableEmpresas = true
-        delete this.formAgregar.empresa
-      }
-      if (idservicio) {
-        await getListEmpresas(idservicio).then((response) => {
-          this.datosEmpresas = response.items
-          this.disableEmpresas = false
-        })
-      }
     },
     clickAgregar() {
       this.formAgregar = {}

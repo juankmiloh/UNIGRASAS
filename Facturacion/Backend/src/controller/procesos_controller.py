@@ -39,6 +39,13 @@ def updateUsuarioProceso(procesos_service: ProcesosService, procesos_repository:
     dataProceso = request.json
     return json.dumps(procesos_service.proceso_usuario_update(procesos_repository, dataProceso))
 
+# Actualizar total factura
+@controller.route(API_ROOT_PATH + 'procesos/totalupdate', methods=['PUT'])
+def updateTotalProceso(procesos_service: ProcesosService, procesos_repository: ProcesosRepository):
+    # Id proceso
+    dataProceso = request.json
+    return json.dumps(procesos_service.proceso_total_update(procesos_repository, dataProceso))
+
 # Actualizar proceso
 @controller.route(API_ROOT_PATH + 'procesos/update', methods=['PUT'])
 def updateProceso(procesos_service: ProcesosService, procesos_repository: ProcesosRepository):

@@ -54,9 +54,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getAllUsuarios } from '@/api/procesosDIEG/usuarios'
-import { deleteUsuario } from '@/api/procesosDIEG/usuarios'
-import { getListNicknames } from '@/api/procesosDIEG/usuarios'
+import { getAllUsuarios, getListNicknames, deleteUsuario } from '@/api/unigrasas/usuarios'
 
 export default {
   props: {

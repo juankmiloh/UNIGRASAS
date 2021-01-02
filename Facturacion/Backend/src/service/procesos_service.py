@@ -85,6 +85,10 @@ class ProcesosService:
     def proceso_usuario_update(self, procesos_repository: ProcesosRepository, dataProceso):
         procesos_repository.proceso_usuario_update_bd(dataProceso)
         return add_wrapper(['Expediente actualizado con éxito!'])
+
+    def proceso_total_update(self, procesos_repository: ProcesosRepository, dataProceso):
+        procesos_repository.proceso_total_update_bd(dataProceso)
+        return add_wrapper(['Total actualizado con éxito!'])
     
     def proceso_update(self, procesos_repository: ProcesosRepository, dataProceso):
         procesos_repository.proceso_update_bd(dataProceso)

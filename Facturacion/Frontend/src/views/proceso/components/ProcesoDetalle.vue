@@ -265,12 +265,11 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getFactura, getFacturaInicial } from '@/api/unigrasas/facturas'
+import { getFactura, getFacturaInicial, updateFactura, updateFacturaTotal } from '@/api/unigrasas/facturas'
 import { getListClientes } from '@/api/unigrasas/clientes'
 import { getListUsuarios } from '@/api/unigrasas/usuarios'
 import { getListMetodopago } from '@/api/unigrasas/metodopago'
 import { getListMediopago } from '@/api/unigrasas/mediopago'
-import { updateProceso } from '@/api/procesosDIEG/procesos'
 import Sticky from '@/components/Sticky' // 粘性header组件
 import { CONSTANTS } from '@/constants/constants'
 import elDragDialog from '@/directive/el-drag-dialog' // base on element-ui
@@ -338,9 +337,12 @@ export default {
     this.tempRoute = Object.assign({}, this.$route)
   },
   methods: {
-    submitTotal(total) {
+    async submitTotal(total) {
       console.log('TOTAL -> ', total)
       this.total = total
+      await updateFacturaTotal({ idfactura: this.id, total: this.total }).then(async(response) => {
+        console.log(response)
+      })
     },
     async initView() {
       if (this.roles[0] === 'administrador') {
@@ -459,7 +461,7 @@ export default {
           modelProceso.f_vencimiento = moment(modelProceso.f_vencimiento).format('YYYY/MM/DD HH:mm:ss')
           modelProceso.f_pago = moment(modelProceso.f_pago).format('YYYY/MM/DD HH:mm:ss')
           modelProceso.total = parseInt(modelProceso.total)
-          await updateProceso(modelProceso).then(async(response) => {
+          await updateFactura(modelProceso).then(async(response) => {
             if (this.editarProceso) {
               this.$notify({
                 title: 'info',

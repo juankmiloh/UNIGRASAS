@@ -33,15 +33,7 @@ export function createFactura(data) {
     });
 }
 
-export function updateFacturaUsuario(data) {
-    return request({
-        url: '/procesos/usuarioupdate',
-        method: 'put',
-        data: data
-    });
-}
-
-export function updateProceso(data) {
+export function updateFactura(data) {
     return request({
         url: '/procesos/update',
         method: 'put',
@@ -54,5 +46,21 @@ export function deleteFactura(id) {
         url: '/procesos',
         method: 'delete',
         params: { 'idProceso': id }
+    });
+}
+
+export function updateFacturaUsuario(data) {
+    return request({
+        url: '/procesos/usuarioupdate',
+        method: 'put',
+        data: data
+    });
+}
+
+export function updateFacturaTotal(data) {
+    return request({
+        url: '/procesos/totalupdate',
+        method: 'put',
+        data: data
     });
 }

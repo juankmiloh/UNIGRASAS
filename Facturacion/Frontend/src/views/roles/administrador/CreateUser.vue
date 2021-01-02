@@ -143,9 +143,7 @@
 <script>
 import { validUsername } from '@/utils/validate'
 import { mapGetters } from 'vuex'
-import { createUser } from '@/api/procesosDIEG/usuarios'
-import { updateUsuario } from '@/api/procesosDIEG/usuarios'
-import { getListRol } from '@/api/procesosDIEG/usuarios'
+import { getListRol, createUser, updateUsuario } from '@/api/unigrasas/usuarios'
 import Sticky from '@/components/Sticky' // 粘性header组件
 import { CONSTANTS } from '@/constants/constants'
 import { DATA } from '@/data/ImgUser'
