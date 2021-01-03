@@ -278,13 +278,17 @@
                 size="mini"
                 type="danger"
                 icon="el-icon-document"
-                @click="handleDelete(scope.row)"
+                @click="handlePDF(scope.row)"
               />
             </template>
           </el-table-column>
         </el-table>
       </el-card>
     </div>
+
+    <!-- <modal-pdf
+      :modalvisible="pdfDialogVisible"
+    /> -->
   </div>
 </template>
 
@@ -344,7 +348,8 @@ export default {
       showOnlyAdmin: false,
       multipleSelection: [],
       downloadLoading: false,
-      filename: ''
+      filename: '',
+      pdfDialogVisible: false
     }
   },
   computed: {
@@ -503,10 +508,10 @@ export default {
       this.msgUsuarioVisible = true
     },
     /* Evento clic boton permisos */
-    handleDelete(data) {
-      this.delIdproceso = data.idproceso
-      this.delExpediente = data.expediente
-      this.deleteDialogVisible = true
+    handlePDF(data) {
+      const routeData = this.$router.resolve({ path: `/pdf/factura/${data.idfactura}` })
+      window.open(routeData.href, '_self')
+      // window.open(routeData.href, '_blank')
     },
     async borrarExpediente() {
       this.loading = true
@@ -577,9 +582,7 @@ export default {
     handleProceso(proceso) {
       // console.log('handleProceso -> ', proceso);
       // console.log(`/procesos/detalle/${proceso.idproceso}/${JSON.stringify(proceso)}/${JSON.stringify(this.datosUsuarios)}/${JSON.stringify(this.datosServicios)}`)
-      this.$router.push({
-        path: `/procesos/detalle/${proceso.idfactura}`
-      })
+      this.$router.push({ path: `/procesos/detalle/${proceso.idfactura}` })
       // this.$router.push({
       //   path: `/procesos/detalle/${proceso.idproceso}/${JSON.stringify(
       //     this.datosServicios

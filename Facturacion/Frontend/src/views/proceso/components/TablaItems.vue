@@ -147,7 +147,7 @@ export default {
   },
   async mounted() {
     this.formItem = {}
-    console.log('this.formItem -> ', this.formItem)
+    // console.log('this.formItem -> ', this.formItem)
   },
   methods: {
     handleAgregar() {
@@ -200,6 +200,8 @@ export default {
         this.loading = false
       } else {
         this.formItem = {}
+        await this.getFacturaItems()
+        this.getItems()
         this.dialogVisibleItem = false
       }
     },

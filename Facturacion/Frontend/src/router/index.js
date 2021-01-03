@@ -560,9 +560,9 @@ export const asyncRoutes = [{
         }]
     },
     {
-        path: '/pdf/download',
+        path: '/pdf/factura/:id',
         component: () =>
-            import ('@/views/pdf/download'),
+            import ('@/views/pdf/factura'),
         hidden: true
     },
 

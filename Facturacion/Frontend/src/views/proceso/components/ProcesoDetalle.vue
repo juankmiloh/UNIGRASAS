@@ -10,6 +10,7 @@
             size="medium"
             icon="el-icon-top-right"
             round
+            @click="handlePDF()"
           >Ver factura</el-button>
         </transition>
       </div>
@@ -337,12 +338,15 @@ export default {
     this.tempRoute = Object.assign({}, this.$route)
   },
   methods: {
+    handlePDF() {
+      const routeData = this.$router.resolve({ path: `/pdf/factura/${this.id}` })
+      window.open(routeData.href, '_self')
+      // window.open(routeData.href, '_blank')
+    },
     async submitTotal(total) {
-      console.log('TOTAL -> ', total)
+      // console.log('TOTAL -> ', total)
       this.total = total
-      await updateFacturaTotal({ idfactura: this.id, total: this.total }).then(async(response) => {
-        console.log(response)
-      })
+      await updateFacturaTotal({ idfactura: this.id, total: this.total })
     },
     async initView() {
       if (this.roles[0] === 'administrador') {
@@ -379,15 +383,15 @@ export default {
       let modelProceso = {}
       await getFactura(id)
         .then(async(response) => {
-          console.log('RESPONSE PROCESO -> ', response)
+          // console.log('RESPONSE PROCESO -> ', response)
           if (response.length > 0) {
             // Se obtienen los datos del proceso si ya esta diligenciado en su totalidad
-            console.log('RESPONSE proceso completo -> ', response)
+            // console.log('RESPONSE proceso completo -> ', response)
             modelProceso = response[0]
           } else {
             // Sino se cargan los datos del proceso completos (Esto pasa cuando se crea un proceso nuevo)
             await getFacturaInicial(id).then(async(response) => {
-              console.log('RESPONSE inicial -> ', response)
+              // console.log('RESPONSE inicial -> ', response)
               modelProceso = response[0]
               modelProceso.descripcion = '' // Se agrega el atributo al modelo del proceso
             })
@@ -395,7 +399,7 @@ export default {
           this.loading = false
           this.showButtons = true
           this.formProceso = modelProceso
-          console.log('Model proceso -> ', this.formProceso)
+          // console.log('Model proceso -> ', this.formProceso)
           // set tagsview title
           this.setTagsViewTitle()
           // set page title
@@ -452,7 +456,7 @@ export default {
     },
     submitForm() {
       let modelProceso = this.formProceso
-      console.log('THISFORMPROCESO -> ', modelProceso)
+      // console.log('THISFORMPROCESO -> ', modelProceso)
       this.$refs.formProceso.validate(async(valid) => {
         if (valid) {
           this.loading = true
