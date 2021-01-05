@@ -2,19 +2,19 @@
 /* eslint-disable */
 export const CONSTANTS = {
     tableColumnsAdmin: [{
-            label: 'Numeración',
+            label: 'Factura',
             prop: 'idfactura',
             width: '',
             filter: 'filterFactura'
         },
         {
-            label: 'Cliente / CUFE',
+            label: 'Cliente',
             prop: 'cliente',
             width: 350,
             filter: 'filterCliente'
         },
         {
-            label: 'Creacion',
+            label: 'Emisión',
             prop: 'f_emision',
             width: '',
             filter: 'filterFcreacion'
@@ -191,6 +191,10 @@ export const CONSTANTS = {
             message: 'Ingrese una fecha válida',
             trigger: 'change'
         }],
+        descripcion: [
+            { required: false, message: 'Ingrese una nota', trigger: 'change' },
+            { min: 10, max: 140, message: 'La longitud de la nota debe ser mínimo de 10 caracteres', trigger: 'blur' }
+        ],
     },
     formAgregarEtapa: {
         etapa: '',

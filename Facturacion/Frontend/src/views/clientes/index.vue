@@ -43,10 +43,13 @@
               <div v-if="column.prop === 'nombre'">
                 <el-tag type="primary">{{ scope.row[column.prop] | uppercase }}</el-tag>
               </div>
+              <div v-else-if="column.prop === 'registro'">
+                <div><i class="el-icon-time" /> {{ scope.row[column.prop] | formatDate }}</div>
+              </div>
               <div v-else>{{ scope.row[column.prop] }}</div>
             </template>
           </el-table-column>
-          <el-table-column align="center">
+          <el-table-column align="center" width="150">
             <!-- eslint-disable-next-line -->
             <template slot="header" slot-scope="scope">
               <el-input
@@ -62,7 +65,7 @@
                 type="success"
                 icon="el-icon-edit"
                 @click="handleEdit(scope.row)"
-              ><b>Editar</b></el-button>
+              />
               <el-button
                 size="mini"
                 type="danger"

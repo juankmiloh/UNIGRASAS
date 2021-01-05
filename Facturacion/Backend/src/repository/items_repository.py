@@ -18,8 +18,8 @@ class ItemsRepository:
         print('OBJ ITEM -> ', item)
         print('-------------------------------------')
         sql = '''
-            INSERT INTO ITEM(COD_ITEM, NOMBRE, PRECIO, DESCRIPCION)
-            VALUES (:CODITEM_ARG, :NOMBRE_ARG, :PRECIO_ARG, :DESCRIPCION_ARG);
+            INSERT INTO ITEM(COD_ITEM, NOMBRE, PRECIO, DESCRIPCION, F_REGISTRO)
+            VALUES (:CODITEM_ARG, :NOMBRE_ARG, :PRECIO_ARG, :DESCRIPCION_ARG, CURRENT_TIMESTAMP);
         '''
         self.db.engine.execute(text(sql), CODITEM_ARG=item["id"], NOMBRE_ARG=item["label"], PRECIO_ARG=item["precio"], DESCRIPCION_ARG=item["descripcion"])
 

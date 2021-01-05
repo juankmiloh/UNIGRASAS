@@ -19,7 +19,8 @@ class ItemsService:
                     'id': result[1],
                     'label': result[2],
                     'precio': result[3],
-                    'descripcion': result[4]
+                    'descripcion': result[4],
+                    'registro': str(result[5]),
                 }
             )
         return items

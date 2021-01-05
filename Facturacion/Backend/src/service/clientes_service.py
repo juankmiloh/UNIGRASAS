@@ -18,10 +18,11 @@ class ClientesService:
                     'idcliente': result[0],
                     'nit': result[2],
                     'nombre': result[3],
-                    'email': result[4],
-                    'telefono': result[5],
-                    'registro': str(result[6]),
-                    'tipopersona': result[7]
+                    'direccion': result[4],
+                    'email': result[5],
+                    'telefono': result[6],
+                    'registro': str(result[7]),
+                    'tipopersona': result[8]
                 }
             )
         return clientes

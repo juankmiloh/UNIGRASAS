@@ -60,7 +60,7 @@
             </el-row>
             <el-row style="border: 0px solid; padding: 6% 6% 6% 6%;">
               <el-col style="border: 0px solid;" :xs="12" :md="10">
-                <el-button :loading="loading" type="primary" style="width: 100%;" -handle-login-keyup-enter-native="asignarUsuario">Ingresar</el-button>
+                <el-button :loading="loading" type="primary" style="width: 100%;" @click.native.prevent="handleLogin">Ingresar</el-button>
               </el-col>
               <el-col :xs="12" :md="14" style="padding-top: 0.6em; padding-left: 5%;">
                 <a href="" style="color: #409EFF;">Recordar contraseña</a>

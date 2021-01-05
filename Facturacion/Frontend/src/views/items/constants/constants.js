@@ -4,7 +4,7 @@ export const CONSTANTS = {
     tableColumnsItems: [{
             label: 'Nombre',
             prop: 'label',
-            width: 400
+            width: 300
         },
         {
             label: 'Identificador',
@@ -19,6 +19,11 @@ export const CONSTANTS = {
         {
             label: 'Descripción',
             prop: 'descripcion',
+            // width: 110
+        },
+        {
+            label: 'Fecha registro',
+            prop: 'registro',
             // width: 110
         }
     ],

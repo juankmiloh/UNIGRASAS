@@ -279,7 +279,7 @@ export const asyncRoutes = [{
             component: () =>
                 import ('@/views/reportes/index'),
             name: 'reportes',
-            meta: { title: 'Reportes', icon: 'chart', noCache: false, roles: ['administrador'] }
+            meta: { title: 'Reportes', icon: 'chart', noCache: false, roles: ['administrador', 'vendedor', 'consulta'] }
         }, ]
     },
     // {
@@ -547,18 +547,18 @@ export const asyncRoutes = [{
     //   ]
     // },
 
-    {
-        path: '/pdf',
-        component: Layout,
-        redirect: '/pdf/index',
-        children: [{
-            path: 'index',
-            component: () =>
-                import ('@/views/pdf/index'),
-            name: 'PDF',
-            meta: { title: 'PDF', icon: 'pdf' }
-        }]
-    },
+    // {
+    //     path: '/pdf',
+    //     component: Layout,
+    //     redirect: '/pdf/index',
+    //     children: [{
+    //         path: 'index',
+    //         component: () =>
+    //             import ('@/views/pdf/index'),
+    //         name: 'PDF',
+    //         meta: { title: 'PDF', icon: 'pdf' }
+    //     }]
+    // },
     {
         path: '/pdf/factura/:id',
         component: () =>

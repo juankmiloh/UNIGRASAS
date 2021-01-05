@@ -9,7 +9,12 @@ export const CONSTANTS = {
         {
             label: 'Nit',
             prop: 'nit',
-            // width: 270
+            width: 110
+        },
+        {
+            label: 'Direccion',
+            prop: 'direccion',
+            // width: 200
         },
         {
             label: 'Email',
@@ -19,12 +24,12 @@ export const CONSTANTS = {
         {
             label: 'Teléfono',
             prop: 'telefono',
-            // width: 110
+            width: 110
         },
         {
-            label: 'Fecha registro',
+            label: 'Registro',
             prop: 'registro',
-            // width: 110
+            width: 110
         }
     ],
     formItem: {
@@ -32,6 +37,7 @@ export const CONSTANTS = {
         tipopersona: '',
         nit: '',
         nombre: '',
+        direccion: '',
         email: '',
         telefono: ''
     },
@@ -41,7 +47,7 @@ export const CONSTANTS = {
             label: ' '
         },
         {
-            type: 'number',
+            type: 'text',
             prop: 'nit',
             label: 'Nit',
             placeholder: 'Nit del cliente'
@@ -51,6 +57,12 @@ export const CONSTANTS = {
             prop: 'nombre',
             label: 'Nombre',
             placeholder: 'Nombre del cliente'
+        },
+        {
+            type: 'text',
+            prop: 'direccion',
+            label: 'Dirección',
+            placeholder: 'Dirección del cliente'
         },
         {
             type: 'text',
@@ -74,9 +86,11 @@ export const CONSTANTS = {
         nombre: [
             { required: true, message: 'Ingrese un nombre', trigger: 'blur' }
         ],
+        direccion: [
+            { required: true, message: 'Ingrese una dirección', trigger: 'blur' }
+        ],
         nit: [
-            { required: true, message: 'Ingrese el NIT' },
-            { type: 'number', message: 'Este campo debe ser numérico' }
+            { required: true, message: 'Ingrese el NIT', trigger: 'blur' }
         ],
         email: [
             { type: "email", required: true, message: 'Ingrese un correo electrónico válido', trigger: 'blur' },
@@ -87,17 +101,6 @@ export const CONSTANTS = {
         ],
     },
     dataFormItem: {
-        iditem: [{
-                id: 1,
-                label: 'Producto1',
-                value: 1
-            },
-            {
-                id: 2,
-                label: 'Producto2',
-                value: 2
-            }
-        ],
         tipopersona: [{
                 id: 1,
                 label: 'Persona natural',

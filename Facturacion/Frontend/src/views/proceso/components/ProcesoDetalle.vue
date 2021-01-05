@@ -6,6 +6,7 @@
         <transition name="el-zoom-in-center">
           <el-button
             v-show="showButtons"
+            :disabled="!generarFactura || total === 0"
             style="border: 2px solid #67c23a"
             size="medium"
             icon="el-icon-top-right"
@@ -92,7 +93,7 @@
               <el-form-item label="Emisión" prop="f_emision">
                 <el-date-picker
                   v-model="formProceso.f_emision"
-                  type="date"
+                  type="datetime"
                   placeholder="Seleccione una fecha"
                   class="control-modal"
                   :disabled="!editarProceso"
@@ -101,18 +102,22 @@
               <el-form-item label="Vencimiento" prop="f_vencimiento">
                 <el-date-picker
                   v-model="formProceso.f_vencimiento"
+                  :disabled="!abogadoEditar"
                   type="date"
                   placeholder="Seleccione una fecha"
                   class="control-modal"
                 />
               </el-form-item>
-              <el-form-item label="Descripción">
+              <el-form-item label="Descripción" prop="descripcion">
                 <el-input
                   v-model="formProceso.descripcion"
                   :disabled="!abogadoEditar"
                   type="textarea"
                   class="control-modal"
                   rows="5"
+                  maxlength="140"
+                  show-word-limit
+                  placeholder="Ingrese una nota"
                 />
               </el-form-item>
             </el-card>
@@ -141,6 +146,7 @@
                           <el-col :span="24">
                             <el-select
                               v-model="formProceso.metodopago"
+                              :disabled="!abogadoEditar"
                               filterable
                               placeholder="Seleccione método de pago"
                               class="control-modal"
@@ -166,6 +172,7 @@
                           <el-col :span="24">
                             <el-select
                               v-model="formProceso.mediopago"
+                              :disabled="!abogadoEditar"
                               filterable
                               placeholder="Seleccione medio de pago"
                               class="control-modal"
@@ -191,6 +198,7 @@
                           <el-col :span="24">
                             <el-date-picker
                               v-model="formProceso.f_pago"
+                              :disabled="!abogadoEditar"
                               type="date"
                               placeholder="Seleccione una fecha"
                               class="control-modal"
@@ -307,7 +315,8 @@ export default {
       showOnlyAdmin: false,
       abogadoEditar: false,
       total: 0,
-      valueTotal: 0
+      valueTotal: 0,
+      generarFactura: false
     }
   },
   computed: {
@@ -388,12 +397,14 @@ export default {
             // Se obtienen los datos del proceso si ya esta diligenciado en su totalidad
             // console.log('RESPONSE proceso completo -> ', response)
             modelProceso = response[0]
+            this.generarFactura = true
           } else {
             // Sino se cargan los datos del proceso completos (Esto pasa cuando se crea un proceso nuevo)
             await getFacturaInicial(id).then(async(response) => {
               // console.log('RESPONSE inicial -> ', response)
               modelProceso = response[0]
               modelProceso.descripcion = '' // Se agrega el atributo al modelo del proceso
+              this.generarFactura = false
             })
           }
           this.loading = false
@@ -490,6 +501,7 @@ export default {
               this.editarProceso = false
               this.loading = false
               this.showButtons = true
+              this.generarFactura = true
             })
           })
         } else {

@@ -46,6 +46,9 @@
               <div v-else-if="column.prop === 'precio'">
                 <span>$ {{ scope.row[column.prop] }}</span>
               </div>
+              <div v-else-if="column.prop === 'registro'">
+                <span><i class="el-icon-time" /> {{ scope.row[column.prop] | formatDateHour }}</span>
+              </div>
               <div v-else>{{ scope.row[column.prop] }}</div>
             </template>
           </el-table-column>
@@ -71,7 +74,7 @@
                 type="danger"
                 icon="el-icon-delete-solid"
                 @click="handleDelete(scope.row)"
-              ><b>Borrar</b></el-button>
+              />
             </template>
           </el-table-column>
         </el-table>

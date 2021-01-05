@@ -14,8 +14,12 @@ class ProcesosService:
         procesos = []
         data = procesos_repository.get_procesos_bd()
         for result in data:
-            # print('-------------------- CADUCIDAD -----------------', result[2])
-    
+            f_vencimiento = None
+            # print('-------------------- f_vencimiento -----------------', result[2])
+
+            if result[6]:
+                f_vencimiento = str(result[6])
+
             procesos.append(
                 {
                     'idfactura': result[0],
@@ -23,7 +27,8 @@ class ProcesosService:
                     'f_emision': str(result[2]),
                     'total': result[3],
                     'idusuario': result[4],
-                    'usuario': result[5]
+                    'usuario': result[5],
+                    'f_vencimiento': f_vencimiento
                 }
             )
         return procesos
@@ -55,12 +60,7 @@ class ProcesosService:
         proceso = []
         data = procesos_repository.get_proceso_bd(idProceso)
         for result in data:
-            caducidad = None
-            print('-------------------- DATA FACTURA -----------------', result)
-
-            if result[2]:
-                caducidad = str(result[2])
-    
+            print('-------------------- DATA FACTURA -----------------', result)    
             proceso.append(
                 {
                     'idfactura': result[0],
@@ -73,7 +73,15 @@ class ProcesosService:
                     'f_vencimiento': str(result[7]),
                     'f_pago': str(result[8]),
                     'total': result[9],
-                    'descripcion': result[10]
+                    'descripcion': result[10],
+                    'n_cliente': result[11],
+                    'direccion': result[12],
+                    'nit': result[13],
+                    'telefono': result[14],
+                    'email': result[15],
+                    'negociacion': result[16],
+                    'n_mediopago': result[17],
+                    'vendedor': result[18],
                 }
             )
         return proceso

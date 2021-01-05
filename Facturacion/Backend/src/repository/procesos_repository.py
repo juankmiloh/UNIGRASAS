@@ -7,7 +7,7 @@ class ProcesosRepository:
 
     def get_procesos_bd(self):
         sql = '''
-            SELECT F.IDFACTURA, C.NOMBRE, F.F_EMISION, F.TOTAL, U.IDUSUARIO, CONCAT_WS(' ', U.NOMBRE, U.APELLIDO) AS USUARIO FROM FACTURA F, CLIENTE C, USUARIO U
+            SELECT F.IDFACTURA, C.NOMBRE, F.F_EMISION, F.TOTAL, U.IDUSUARIO, CONCAT_WS(' ', U.NOMBRE, U.APELLIDO) AS USUARIO, F.F_VENCIMIENTO FROM FACTURA F, CLIENTE C, USUARIO U
             WHERE F.IDCLIENTE = C.IDCLIENTE
             AND F.IDUSUARIO = U.IDUSUARIO
             ORDER BY F.IDFACTURA DESC;
@@ -42,7 +42,15 @@ class ProcesosRepository:
                 F.F_VENCIMIENTO,
                 F.F_PAGO,
                 F.TOTAL,
-                F.DESCRIPCION
+                F.DESCRIPCION,
+                C.NOMBRE AS CLIENTE,
+                C.DIRECCION,
+                C.NIT,
+                C.TELEFONO,
+                C.EMAIL,
+                METODOP.NOMBRE AS NEGOCIACION,
+                MEDIOP.NOMBRE AS MEDIOPAGO,
+                CONCAT(U.NOMBRE, ' ', U.APELLIDO) AS VENDEDOR
             FROM FACTURA F, CLIENTE C, USUARIO U, MEDIO_PAGO MEDIOP, METODO_PAGO METODOP 
             WHERE
             F.IDFACTURA = :IDPROCESO_ARG

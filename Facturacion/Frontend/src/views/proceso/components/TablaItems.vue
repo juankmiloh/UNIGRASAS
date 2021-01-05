@@ -36,6 +36,7 @@
             <!-- eslint-disable-next-line -->
             <template slot="header" slot-scope="scope">
               <el-button
+                :disabled="!vendedorEditar"
                 style="border: 1px solid #67c23a"
                 size="mini"
                 icon="el-icon-circle-plus"

@@ -91,7 +91,7 @@
           <el-form-item label="Fecha emisión" prop="f_emision">
             <el-date-picker
               v-model="formAgregar.f_emision"
-              type="date"
+              type="datetime"
               placeholder="Seleccione una fecha"
               class="control-modal"
             />
@@ -275,6 +275,7 @@
               ><b>Ver</b></el-button>
               <el-button
                 v-show="showOnlyAdmin"
+                :disabled="(scope.row.f_vencimiento === null) || (scope.row.total === 0)"
                 size="mini"
                 type="danger"
                 icon="el-icon-document"
@@ -509,6 +510,7 @@ export default {
     },
     /* Evento clic boton permisos */
     handlePDF(data) {
+      console.log('PDF -> ', data)
       const routeData = this.$router.resolve({ path: `/pdf/factura/${data.idfactura}` })
       window.open(routeData.href, '_self')
       // window.open(routeData.href, '_blank')

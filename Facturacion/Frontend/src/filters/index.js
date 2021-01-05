@@ -1,8 +1,9 @@
 /* jshint esversion: 6 */
 /* eslint-disable */
 // import parseTime, formatTime and set to filter
+import moment from 'moment';
 export { parseTime, formatTime }
-from '@/utils'
+from '@/utils';
 
 /**
  * Show plural label if time is plural number
@@ -85,4 +86,60 @@ export function uppercaseFirst(string) {
  */
 export function lowercaseFirst(string) {
     return string.charAt(0).toLowerCase() + string.slice(1)
+}
+
+/**
+ * Formatear fecha
+ * @param {String} string
+ */
+export function formatDate(string) {
+    return moment(string).format('DD/MM/YYYY');
+}
+
+/**
+ * Formatear fecha
+ * @param {String} string
+ */
+export function formatDateHour(string) {
+    return moment(string).format('DD/MM/YYYY hh:mm:ss');
+}
+
+/**
+ * Obtener hora de fecha
+ * @param {String} string
+ */
+export function getHour(string) {
+    return moment(string).format('hh:mm:ss');
+}
+
+/**
+ * Obtener dia de fecha
+ * @param {String} string
+ */
+export function getDay(string) {
+    return moment(string).format('DD');
+}
+
+/**
+ * Obtener mes de fecha
+ * @param {String} string
+ */
+export function getMonth(string) {
+    return moment(string).format('MM');
+}
+
+/**
+ * Obtener año de fecha
+ * @param {String} string
+ */
+export function getYear(string) {
+    return moment(string).format('YYYY');
+}
+
+/**
+ * Formatear numero
+ * @param {number} number
+ */
+export function formatNumber(number) {
+    return new Intl.NumberFormat('de-DE').format(number);
 }
