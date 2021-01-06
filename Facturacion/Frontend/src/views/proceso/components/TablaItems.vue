@@ -26,10 +26,10 @@
             sortable
           >
             <template slot-scope="scope">
-              <div v-if="column.prop === 'item'"><el-tag type="primary">{{ scope.row[column.prop] }}</el-tag></div>
-              <div v-else-if="column.prop === 'precio'">$ {{ new Intl.NumberFormat("de-DE").format(scope.row[column.prop]) }}</div>
-              <div v-else-if="column.prop === 'total'">$ {{ getTotal(scope.row) }}</div>
-              <div v-else>{{ scope.row[column.prop] }}</div>
+              <div v-if="column.prop === 'item'"><el-tag type="primary" style="font-size: 10px;">{{ scope.row[column.prop] }}</el-tag></div>
+              <div v-else-if="column.prop === 'precio'" style="font-size: 13px;">$ {{ new Intl.NumberFormat("de-DE").format(scope.row[column.prop]) }}</div>
+              <div v-else-if="column.prop === 'total'" style="font-size: 13px;">$ {{ getTotal(scope.row) }}</div>
+              <div v-else style="font-size: 13px;">{{ scope.row[column.prop] }}</div>
             </template>
           </el-table-column>
           <el-table-column align="center" width="125">

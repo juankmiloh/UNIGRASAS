@@ -201,27 +201,27 @@
             </el-row>
             <el-row style="padding: 1%; border-top: 1px solid;">
               <el-col :span="1" style="font-size: 11px;"><b>Son: </b></el-col>
-              <el-col :span="23" style="font-size: 10px; padding-left: 1.5%;">(catorce millones setenta y seis mil pesos setenta centavos)</el-col>
+              <el-col :span="23" style="font-size: 11px; padding-left: 1.5%;">( {{ convertNumberToLetters(dataFactura.total) | uppercaseFirst }} )</el-col>
             </el-row>
           </el-col>
           <el-col :span="7" style="border-left: 1px solid;">
             <el-row>
               <el-col :span="24">
                 <el-row>
-                  <el-col :span="11" style="padding: 1%; border-right: 1px solid; border-bottom: 1px solid; font-size: 11px;"><b>Subtotal: </b></el-col>
-                  <el-col :span="13" style="padding: 1%; text-align: right; border-bottom: 1px solid; font-size: 11px;">$ {{ dataFactura.total | formatNumber }}</el-col>
+                  <el-col :span="11" style="padding: 2%; border-right: 1px solid; border-bottom: 1px solid; font-size: 11px;"><b>Subtotal: </b></el-col>
+                  <el-col :span="13" style="padding: 2%; text-align: right; border-bottom: 1px solid; font-size: 11px;">$ {{ dataFactura.total | formatNumber }}</el-col>
                 </el-row>
                 <el-row>
-                  <el-col :span="11" style="padding: 1%; border-right: 1px solid; border-bottom: 1px solid; font-size: 11px;"><b>Cargos: </b></el-col>
-                  <el-col :span="13" style="padding: 1%; text-align: right; border-bottom: 1px solid; font-size: 11px;">$ 0</el-col>
+                  <el-col :span="11" style="padding: 2%; border-right: 1px solid; border-bottom: 1px solid; font-size: 11px;"><b>Cargos: </b></el-col>
+                  <el-col :span="13" style="padding: 2%; text-align: right; border-bottom: 1px solid; font-size: 11px;">$ 0</el-col>
                 </el-row>
                 <el-row>
-                  <el-col :span="11" style="padding: 1%; border-right: 1px solid; border-bottom: 1px solid; font-size: 11px;"><b>Descuento: </b></el-col>
-                  <el-col :span="13" style="padding: 1%; text-align: right; border-bottom: 1px solid; font-size: 11px;">$ 0</el-col>
+                  <el-col :span="11" style="padding: 2%; border-right: 1px solid; border-bottom: 1px solid; font-size: 11px;"><b>Descuento: </b></el-col>
+                  <el-col :span="13" style="padding: 2%; text-align: right; border-bottom: 1px solid; font-size: 11px;">$ 0</el-col>
                 </el-row>
                 <el-row>
-                  <el-col :span="11" style="padding: 1%; border-right: 1px solid; font-size: 11px;"><b>Total: </b></el-col>
-                  <el-col :span="13" style="padding: 1%; text-align: right; font-size: 11px;">$ {{ dataFactura.total | formatNumber }}</el-col>
+                  <el-col :span="11" style="padding: 2%; border-right: 1px solid; font-size: 11px;"><b>Total: </b></el-col>
+                  <el-col :span="13" style="padding: 2%; text-align: right; font-size: 11px;">$ {{ dataFactura.total | formatNumber }}</el-col>
                 </el-row>
               </el-col>
             </el-row>
@@ -240,6 +240,7 @@ import Sticky from '@/components/Sticky' // 粘性header组件
 import logoEmpresa from '@/assets/unigrasas.jpg'
 import { getFacturaInicial, getFactura } from '@/api/unigrasas/facturas'
 import { getListFacturaItems } from '@/api/unigrasas/factura-has-item'
+import { numeroALetras } from './scripts/numeroLetras'
 
 export default {
   name: 'ViewPdf',
@@ -262,17 +263,27 @@ export default {
     await this.getDataFactura()
     await this.getDataItems()
     this.loading = false
-    console.log('Imprimir factura -> ', this.id)
+    // console.log('Imprimir factura -> ', this.id)
   },
   methods: {
+    convertNumberToLetters(val) {
+      const letras = numeroALetras(val, {
+        plural: 'PESOS',
+        singular: 'PESO',
+        centPlural: 'CENTAVOS',
+        centSingular: 'CENTAVO'
+      })
+      console.log(letras)
+      return letras
+    },
     fetchData() {
       this.showElements = false
       this.fullscreenLoading = true
-      import('./content.js').then((data) => {
-        console.log(data)
+      import('./scripts/content.js').then((data) => {
+        // console.log(data)
         const { title } = data.default
         document.title = title
-        console.log('document -> ', document)
+        // console.log('document -> ', document)
         this.article = data.default
         setTimeout(() => {
           this.fullscreenLoading = false
@@ -295,7 +306,7 @@ export default {
       await getFactura(this.id).then(async(response) => {
         if (response.length > 0) {
           // Se obtienen los datos del proceso si ya esta diligenciado en su totalidad
-          console.log('DATA_FACTURA -> ', response)
+          // console.log('DATA_FACTURA -> ', response)
           this.dataFactura = response[0]
         } else {
           // Sino se cargan los datos del proceso completos (Esto pasa cuando se crea un proceso nuevo)
@@ -312,7 +323,7 @@ export default {
     },
     async getDataItems() {
       await getListFacturaItems(this.id).then((response) => {
-        console.log('ITEMS_FACTURA -> ', response)
+        // console.log('ITEMS_FACTURA -> ', response)
         this.dataItems = response
       })
     }

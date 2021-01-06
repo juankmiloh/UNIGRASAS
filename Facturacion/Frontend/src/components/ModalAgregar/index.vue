@@ -55,6 +55,17 @@
               @keyup.enter.native="handleForm('modalform')"
             />
           </span>
+          <span v-if="component.type === 'decimal'">
+            <el-input-number
+              v-model.number="model[component.prop]"
+              :precision="2"
+              :step="0.01"
+              autocomplete="off"
+              class="control-modal"
+              :placeholder="component.placeholder"
+              @keyup.enter.native="handleForm('modalform')"
+            />
+          </span>
           <span v-if="component.type === 'textarea'">
             <el-input
               v-model="model[component.prop]"

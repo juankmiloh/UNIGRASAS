@@ -510,7 +510,7 @@ export default {
     },
     /* Evento clic boton permisos */
     handlePDF(data) {
-      console.log('PDF -> ', data)
+      // console.log('PDF -> ', data)
       const routeData = this.$router.resolve({ path: `/pdf/factura/${data.idfactura}` })
       window.open(routeData.href, '_self')
       // window.open(routeData.href, '_blank')

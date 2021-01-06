@@ -9,22 +9,22 @@ export const CONSTANTS = {
         {
             label: 'Producto',
             prop: 'item',
-            width: 270
-        },
-        {
-            label: 'Precio',
-            prop: 'precio',
-            width: 98
+            width: 235
         },
         {
             label: 'Cantidad',
             prop: 'cantidad',
-            width: 110
+            // width: 110
+        },
+        {
+            label: 'Precio',
+            prop: 'precio',
+            // width: 98
         },
         {
             label: 'Valor',
             prop: 'total',
-            width: 110
+            // width: 110
         }
     ],
     formItem: {
@@ -40,13 +40,13 @@ export const CONSTANTS = {
             placeholder: 'Seleccione un producto'
         },
         {
-            type: 'number',
+            type: 'decimal',
             prop: 'cantidad',
             label: 'Cantidad',
             placeholder: 'Ingrese cantidad de producto'
         },
         {
-            type: 'number',
+            type: 'decimal',
             prop: 'precio',
             label: 'Precio',
             placeholder: 'Ingrese el precio'
