@@ -29,10 +29,16 @@ class AppModule(Module):
 def create_app():
 
     config_name = os.environ.get('FLASK_ENV', 'production')
+
+    # print("_______ config_name _____________")
+    # print(config_name)
+    # print("____________________")
+
     app = Flask(__name__,
                 static_folder="../front",
                 template_folder="../front"
                 )
+
     app.config.from_object('config_' + config_name)
 
     db = SQLAlchemy()
@@ -49,8 +55,8 @@ def create_app():
 
     FlaskInjector(app=app, injector=injector)
 
-    print("____________________")
-    print(app.config.get("ENV"))
-    print("____________________")
+    # print("____________________")
+    # print(app.config.get("ENV"))
+    # print("____________________")
 
     return app

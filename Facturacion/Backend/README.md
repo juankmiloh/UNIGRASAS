@@ -1,6 +1,7 @@
 ## Back-end para el manejo del módulo de procesos (expedientes) para la DIEG
 
 # linux/MacOS
+<!-- export FLASK_ENV=production -->
 export FLASK_ENV=development
 python3 manage.py runserver -h 0.0.0.0 -p 5000
 
