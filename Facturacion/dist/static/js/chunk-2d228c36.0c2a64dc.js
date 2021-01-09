@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d228c36"],{db24:function(n,t,c){"use strict";c.r(t);var e="Factura de venta",a="",d={title:e,content:a};t["default"]=d}}]);
