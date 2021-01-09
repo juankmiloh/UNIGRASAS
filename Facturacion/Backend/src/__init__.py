@@ -43,14 +43,14 @@ def create_app():
     from .controller import controller as controller_blueprint
     app.register_blueprint(controller_blueprint)
 
-    if app.config.get("ENV") == 'development':
+    if app.config.get("ENV") == 'development' or app.config.get("ENV") == 'production':
         CORS(app, resources={
              r"*": {"origins": "*", "supports_credentials": True}})
 
     FlaskInjector(app=app, injector=injector)
 
-    # print("____________________")
-    # print(app.config.get("ENV"))
-    # print("____________________")
+    print("____________________")
+    print(app.config.get("ENV"))
+    print("____________________")
 
     return app
