@@ -8,16 +8,17 @@ import { getToken } from '@/utils/auth';
 // create an axios instance
 const service = axios.create({
     baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-    // withCredentials: true, // send cookies when cross-domain requests
+    withCredentials: true, // send cookies when cross-domain requests
     timeout: 5000 // request timeout
 });
 
 // request interceptor
 service.interceptors.request.use(
     config => {
-        if (store.getters.token) {
-            config.headers['X-Token'] = getToken();
-        }
+        // if (store.getters.token) {
+        //     config.headers['X-Token'] = getToken();
+        // }
+        // console.log('config -> ', config);
         return config;
     },
     error => {
@@ -30,6 +31,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
     response => {
         const res = JSON.parse(JSON.stringify(response.data));
+        // console.log('response axios -> ', response);
         return res;
     },
     error => {

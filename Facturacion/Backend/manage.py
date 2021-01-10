@@ -16,11 +16,7 @@ def test():
           '--cover-erase', '--cover-html', '--cover-html-dir=cover'])
 
 if __name__ == '__main__':
-    # print("_______ app.config.get('ENV') _____________")
-    # print(app.config.get("ENV"))
-    # print("____________________")
-
     if app.config.get("ENV") == 'production': # Cambiar dependiendo el servidor donde se despliegue la aplicacion (development || production)
-        app.run() # Correr la aplicacion localmente
+        app.run()
     else:
-        manager.run() # Correr la aplicacion desplegada en servidor
+        manager.run()
