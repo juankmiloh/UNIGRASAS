@@ -4,6 +4,15 @@
 ----------------------------
 -- sudo mysql -u root -p
 
+
+----------------------------
+-- COMANDO PARA CREAR USUARIO MYSQL QUE PERMITA CONEXIONES AL SERVIDOR DE BASE DE DATOS DESDE OTROS EQUIPOS
+-- SISTEMA OPERATIVO WINDOWS
+----------------------------
+CREATE USER 'root'@'%' IDENTIFIED BY '123456';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
 ----------------------------
 -- DDL TABLA ETAPA
 ----------------------------
